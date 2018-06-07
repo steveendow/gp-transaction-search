@@ -25,6 +25,9 @@ Dynamics GP 2013 - 2018
 Contact Steve Endow via the [Precipio Services web site - Contact Us Page](https://precipioservices.com/contact-us/)
 
 
+## Contributing
+We'll need to figure that out. But here's the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#VisualStudio/opensource@github.com) for the project.
+
 # Releases
 
 v1.0.0.2 - June 6, 2018: Initial commit to GitHub
