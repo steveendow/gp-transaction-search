@@ -1,6 +1,8 @@
 # Microsoft Dynamics GP Transaction Search
 GP Transaction Search is a Visual Studio Tools AddIn for Microsoft Dynamics GP
 
+Web site: [GP Transaction Search](https://precipioservices.com/free/gp-transaction-search/)
+
 Overview:
 [Dynamics GP Land Blog Post by Steve Endow](https://dynamicsgpland.blogspot.com/2018/06/dynamics-gp-transaction-search-v10-is.html)
 
@@ -29,6 +31,3 @@ Contact Steve Endow via the [Precipio Services web site - Contact Us Page](https
 ## Contributing
 We'll need to figure that out. But here's the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#VisualStudio/opensource@github.com) for the project.
 
-# Releases
-
-v1.0.0.2 - June 6, 2018: Initial commit to GitHub
