@@ -44,11 +44,11 @@
  * -Fix incorrect GPConnNet reference in GPSQLConnection2018.dll and update references for all versions of GP Transaction Search
  * -Set ReplacePMInquiryVendor setting to False as default
  * 
- * -v1.0.0.5 - June 7, 2018
+ * -v1.0.0.5 - June 7, 2018 - Unreleased
  * -When opening the PM Transaction Search window from Vendor Maintenance, default the vendor ID on the search window
  *  and pre-populate grid with vendor data.
  * -Fix tab order of search filter fields on PMTransactionSearch window
- * 
+ *  
  */
 
 
