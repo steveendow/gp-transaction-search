@@ -41,8 +41,9 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Application.Dynamics.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="GPSQLConnection2016">
-      <HintPath>..\..\1 GP Files\GPSQLConnection\GPSQLConnection2016.dll</HintPath>
+    <Reference Include="GPSQLConnection2016, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>GPSQLConnection\GPSQLConnection2016.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Dexterity.Bridge, Version=16.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>

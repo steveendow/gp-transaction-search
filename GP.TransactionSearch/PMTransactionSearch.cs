@@ -36,9 +36,23 @@ namespace GP.TransactionSearch
                 this.Text = this.Text + " v" + Controller.Instance.Model.AssemblyVersion;
             }
 
+            if (!string.IsNullOrEmpty(Controller.Instance.Model.PMVendorLabel))
+            {
+                this.lblVendorID.Text = Controller.Instance.Model.PMVendorLabel + " ID:";
+                this.lblVendorName.Text = Controller.Instance.Model.PMVendorLabel + " Name:";
+            }
+
             this.dateStart.Value = DateTime.Today.AddYears(-1);
 
             PrepDataGrid();
+
+            if (!string.IsNullOrEmpty(Controller.Instance.Model.VendorIDDefault))
+            {
+                this.txtVendorID.Text = Controller.Instance.Model.VendorIDDefault;
+                GetPMTransactions();
+
+                Controller.Instance.Model.VendorIDDefault = string.Empty;
+            }
         }
 
         private void dateStart_ValueChanged(object sender, EventArgs e)
@@ -346,39 +360,41 @@ namespace GP.TransactionSearch
             else
             {
                 Controller.Instance.Model.PMSearchFocus = true;
-                Dynamics.Forms.PmTransactionEntryZoom.Procedures.OpenWindow.Invoke(1, pmTrx.CNTRLNUM, pmTrx.DCSTATUS, 1, 7814);
+                Dynamics.Forms.PmTransactionEntryZoom.Procedures.OpenWindow.Invoke(pmTrx.DOCTYPE, pmTrx.CNTRLNUM, pmTrx.DCSTATUS, 1, 7814);
             }
 
         }
 
 
-        //private void OpenPOPInvoiceInquiry(PMTransaction pmTrx)
-        //{
-        //    if (string.IsNullOrEmpty(pmTrx.VENDORID) || string.IsNullOrEmpty(pmTrx.DOCNUMBR))
-        //    {
-        //        return;
-        //    }
+        private void OpenPOPInvoiceInquiry(PMTransaction pmTrx)
+        {
+            if (string.IsNullOrEmpty(pmTrx.VENDORID) || string.IsNullOrEmpty(pmTrx.DOCNUMBR))
+            {
+                return;
+            }
 
-        //    //The PopInquiryInvoiceEntry window does not expose an OpenWindow.Invoke procedure in VS Tools, so use Continuum instead
-        //    //Dynamics.Forms.PopInquiryInvoiceEntry.Procedures.OpenWindow.Invoke(0, "RCT1107", 2, 3, 1);
+            //The PopInquiryInvoiceEntry window does not expose an OpenWindow.Invoke procedure in VS Tools, so use Continuum instead
+            //Dynamics.Forms.PopInquiryInvoiceEntry.Procedures.OpenWindow.Invoke(0, "RCT1107", 2, 3, 1);
+            
 
-        //    Dynamics.Application gpApp = new Dynamics.Application();
-        //    string compilerMessage = string.Empty;
 
-        //    Params.Param5 param5 = new Params.Param5();
-        //    param5.p1 = "0";
-        //    param5.p2 = "RCT1107";
-        //    param5.p3 = "2";
-        //    param5.p4 = "3";
-        //    param5.p5 = "1";
+            //Dynamics.Application gpApp = new Dynamics.Application();
+            //string compilerMessage = string.Empty;
 
-        //    string gpAppCommand = "OpenWindow() of form POP_Inquiry_Invoice_Entry";
+            //Params.Param5 param5 = new Params.Param5();
+            //param5.p1 = "0";
+            //param5.p2 = "RCT1107";
+            //param5.p3 = "2";
+            //param5.p4 = "3";
+            //param5.p5 = "1";
 
-        //    gpApp.SetParamHandler(param5);
+            //string gpAppCommand = "OpenWindow() of form POP_Inquiry_Invoice_Entry";
 
-        //    int compilerError = gpApp.ExecuteSanscript(gpAppCommand, out compilerMessage);
+            //gpApp.SetParamHandler(param5);
 
-        //}
+            //int compilerError = gpApp.ExecuteSanscript(gpAppCommand, out compilerMessage);
+
+        }
 
 
         private void OpenPMPaymentInquiry(PMTransaction pmTrx)
@@ -513,6 +529,11 @@ namespace GP.TransactionSearch
         private void dataGrid_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ViewTransaction();
+        }
+
+        private void status1_DoubleClick(object sender, EventArgs e)
+        {
+            Controller.Instance.LoadConfiguration();
         }
     }
 }

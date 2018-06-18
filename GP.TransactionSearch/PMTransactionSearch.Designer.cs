@@ -34,8 +34,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtVendorID = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblVendorID = new System.Windows.Forms.Label();
+            this.lblVendorName = new System.Windows.Forms.Label();
             this.txtVendorName = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtDocNumber = new System.Windows.Forms.TextBox();
@@ -107,42 +107,42 @@
             // 
             // txtVendorID
             // 
-            this.txtVendorID.Location = new System.Drawing.Point(268, 8);
+            this.txtVendorID.Location = new System.Drawing.Point(276, 8);
             this.txtVendorID.Name = "txtVendorID";
-            this.txtVendorID.Size = new System.Drawing.Size(89, 20);
+            this.txtVendorID.Size = new System.Drawing.Size(97, 20);
             this.txtVendorID.TabIndex = 2;
             this.txtVendorID.TextChanged += new System.EventHandler(this.txtVendorID_TextChanged);
             // 
-            // label3
+            // lblVendorID
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(190, 12);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(58, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "Vendor ID:";
+            this.lblVendorID.AutoSize = true;
+            this.lblVendorID.Location = new System.Drawing.Point(190, 12);
+            this.lblVendorID.Name = "lblVendorID";
+            this.lblVendorID.Size = new System.Drawing.Size(58, 13);
+            this.lblVendorID.TabIndex = 5;
+            this.lblVendorID.Text = "Vendor ID:";
             // 
-            // label4
+            // lblVendorName
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(190, 38);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(75, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Vendor Name:";
+            this.lblVendorName.AutoSize = true;
+            this.lblVendorName.Location = new System.Drawing.Point(190, 38);
+            this.lblVendorName.Name = "lblVendorName";
+            this.lblVendorName.Size = new System.Drawing.Size(75, 13);
+            this.lblVendorName.TabIndex = 7;
+            this.lblVendorName.Text = "Vendor Name:";
             // 
             // txtVendorName
             // 
-            this.txtVendorName.Location = new System.Drawing.Point(268, 34);
+            this.txtVendorName.Location = new System.Drawing.Point(276, 34);
             this.txtVendorName.Name = "txtVendorName";
-            this.txtVendorName.Size = new System.Drawing.Size(89, 20);
+            this.txtVendorName.Size = new System.Drawing.Size(97, 20);
             this.txtVendorName.TabIndex = 3;
             this.txtVendorName.TextChanged += new System.EventHandler(this.txtVendorName_TextChanged);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(368, 11);
+            this.label5.Location = new System.Drawing.Point(379, 11);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 13);
             this.label5.TabIndex = 9;
@@ -150,10 +150,10 @@
             // 
             // txtDocNumber
             // 
-            this.txtDocNumber.Location = new System.Drawing.Point(445, 7);
+            this.txtDocNumber.Location = new System.Drawing.Point(459, 7);
             this.txtDocNumber.Name = "txtDocNumber";
             this.txtDocNumber.Size = new System.Drawing.Size(89, 20);
-            this.txtDocNumber.TabIndex = 6;
+            this.txtDocNumber.TabIndex = 4;
             this.txtDocNumber.TextChanged += new System.EventHandler(this.txtDocNumber_TextChanged);
             // 
             // statusPMTransaction
@@ -175,6 +175,7 @@
             this.status1.Name = "status1";
             this.status1.Size = new System.Drawing.Size(200, 17);
             this.status1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.status1.DoubleClick += new System.EventHandler(this.status1_DoubleClick);
             // 
             // status2
             // 
@@ -214,7 +215,7 @@
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid.ShowEditingIcon = false;
             this.dataGrid.Size = new System.Drawing.Size(1042, 350);
-            this.dataGrid.TabIndex = 7;
+            this.dataGrid.TabIndex = 10;
             this.dataGrid.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_CellContentDoubleClick);
             this.dataGrid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_CellMouseDown);
             this.dataGrid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGrid_MouseClick);
@@ -222,7 +223,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(368, 37);
+            this.label6.Location = new System.Drawing.Point(379, 37);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 13);
             this.label6.TabIndex = 14;
@@ -230,17 +231,17 @@
             // 
             // txtAmountFrom
             // 
-            this.txtAmountFrom.Location = new System.Drawing.Point(445, 33);
+            this.txtAmountFrom.Location = new System.Drawing.Point(459, 33);
             this.txtAmountFrom.Name = "txtAmountFrom";
             this.txtAmountFrom.ShortcutsEnabled = false;
             this.txtAmountFrom.Size = new System.Drawing.Size(89, 20);
-            this.txtAmountFrom.TabIndex = 4;
+            this.txtAmountFrom.TabIndex = 5;
             this.txtAmountFrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAmountFrom_KeyPress);
             this.txtAmountFrom.Leave += new System.EventHandler(this.txtAmountFrom_Leave);
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(673, 30);
+            this.btnRefresh.Location = new System.Drawing.Point(691, 30);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 7;
@@ -292,18 +293,18 @@
             // 
             // txtAmountTo
             // 
-            this.txtAmountTo.Location = new System.Drawing.Point(569, 33);
+            this.txtAmountTo.Location = new System.Drawing.Point(587, 33);
             this.txtAmountTo.Name = "txtAmountTo";
             this.txtAmountTo.ShortcutsEnabled = false;
             this.txtAmountTo.Size = new System.Drawing.Size(89, 20);
-            this.txtAmountTo.TabIndex = 5;
+            this.txtAmountTo.TabIndex = 6;
             this.txtAmountTo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAmountTo_KeyPress);
             this.txtAmountTo.Leave += new System.EventHandler(this.txtAmountTo_Leave);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(541, 37);
+            this.label7.Location = new System.Drawing.Point(557, 37);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(23, 13);
             this.label7.TabIndex = 18;
@@ -326,9 +327,9 @@
             this.Controls.Add(this.statusPMTransaction);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtDocNumber);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblVendorName);
             this.Controls.Add(this.txtVendorName);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.lblVendorID);
             this.Controls.Add(this.txtVendorID);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -355,8 +356,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtVendorID;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblVendorID;
+        private System.Windows.Forms.Label lblVendorName;
         private System.Windows.Forms.TextBox txtVendorName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtDocNumber;

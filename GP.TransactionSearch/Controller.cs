@@ -161,7 +161,16 @@ namespace GP.TransactionSearch
                         Controller.instance.Model.ReplacePMInquiryDocument = false;
                     }
                 }
-                
+
+                if (configSection.Settings.Get("PMVendorLabel") != null && configSection.Settings.Get("PMVendorLabel").Value != null && (!string.IsNullOrEmpty(configSection.Settings.Get("PMVendorLabel").Value.ValueXml.InnerText)))
+                {
+                    Controller.instance.Model.PMVendorLabel = configSection.Settings.Get("PMVendorLabel").Value.ValueXml.InnerText.Trim();
+                }
+                else
+                {
+                    Controller.instance.Model.PMVendorLabel = string.Empty;
+                }
+
                 return true;
 
             }

@@ -28,5 +28,31 @@
  *  Document window
  *  -Modify the config settings to set GenerateDefaultValueInCode = False, to try and fix issue where setting ReplacePMInquiryDocument = False
  *  did not turn off the window replacement in GP.
- *  
+ * 
+ * -v1.0.0.3 - June 7, 2018
+ * -The PM Trx Inquiry Vendor window behaves differently than the PM Trx Inquiry Document window when we attempt to replace them.
+ * The Vendor window will throw a Dex error when e.Cancel is used in a OpenBeforeOriginal CancelEventHandler, and the Vendor window
+ * only seems to like the .Close() method in the OpenBeforeOriginal.
+ * Conversely, the Document window will throw an error when .Close() is used in OpenBeforeOriginal. e.Cancel does work, but only
+ * the first time the window is opened. After the first open and e.Cancel is used, the OpenBeforeOriginal event will not fire.
+ * So, as a reluctant compromise, for the Document window, do not use OpenBeforeOriginal--instead use OpenAfterOriginal to open PM Trx Search, let the
+ * Document window open, and then close the Document window.  The Document window will be visible as it opens and closes, but it's the only way
+ * I found to close the window without causing either a Dex error or a problem opening the window again.
+ * Having the window visibly open and then close isn't ideal, but I have run out of ideas at the moment.
+ * 
+ * -v1.0.0.4 - June 7, 2018
+ * -Fix incorrect GPConnNet reference in GPSQLConnection2018.dll and update references for all versions of GP Transaction Search
+ * -Set ReplacePMInquiryVendor setting to False as default
+ * 
+ * -v1.0.0.5 - June 7, 2018
+ * -When opening the PM Transaction Search window from Vendor Maintenance, default the vendor ID on the search window
+ *  and pre-populate grid with vendor data.
+ * -Fix tab order of search filter fields on PMTransactionSearch window
+ * 
  */
+
+
+// TODO: Add optional config file settings to override PM Transaction Search window labels, allowing replacement of Vendor -> Creditor
+
+
+// WISHLIST: Add support for POP Invoice Zoom window (Requires Dex assistance)
