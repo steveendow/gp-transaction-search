@@ -13,9 +13,10 @@ namespace GP.TransactionSearch
     public class Controller
     {
         private static Model model = new Model();
-        private static PMSearchFilter pmSearchFilter = new PMSearchFilter();
         private static readonly Controller instance = new Controller();
         private System.ComponentModel.IContainer components = null;
+
+        private static PMSearchFilter pmSearchFilter = new PMSearchFilter();
 
         public Model Model
         {
@@ -24,15 +25,7 @@ namespace GP.TransactionSearch
                 return Controller.model;
             }
         }
-
-        public PMSearchFilter PMSearchFilter
-        {
-            get
-            {
-                return Controller.pmSearchFilter;
-            }
-        }
-
+        
         public static Controller Instance
         {
             get
@@ -81,6 +74,8 @@ namespace GP.TransactionSearch
             this.Dispose();
         }
 
+
+
         public bool LoadConfiguration()
         {
             try
@@ -96,6 +91,9 @@ namespace GP.TransactionSearch
                 //Get assembly version
                 System.Version currentVersion = myAssembly.GetName().Version;
                 Controller.Instance.Model.AssemblyVersion = currentVersion.ToString();
+
+                //Initialize Search Filter key number for Controller.AddSearchFilter
+                Controller.instance.Model.NextSearchFilterKey = 1;
 
 
                 //Requires reference to System.Configuration and "using System.Configuration" statement
@@ -131,34 +129,6 @@ namespace GP.TransactionSearch
                     else
                     {
                         Controller.instance.Model.SearchAsYouType = false;
-                    }
-                }
-
-                if (configSection.Settings.Get("ReplacePMInquiryVendor").Value != null && (!string.IsNullOrEmpty(configSection.Settings.Get("ReplacePMInquiryVendor").Value.ValueXml.InnerText)))
-                {
-                    success = bool.TryParse(configSection.Settings.Get("ReplacePMInquiryVendor").Value.ValueXml.InnerText, out boolSetting);
-
-                    if (success)
-                    {
-                        Controller.instance.Model.ReplacePMInquiryVendor = boolSetting;
-                    }
-                    else
-                    {
-                        Controller.instance.Model.ReplacePMInquiryVendor = false;
-                    }
-                }
-
-                if (configSection.Settings.Get("ReplacePMInquiryDocument").Value != null && (!string.IsNullOrEmpty(configSection.Settings.Get("ReplacePMInquiryDocument").Value.ValueXml.InnerText)))
-                {
-                    success = bool.TryParse(configSection.Settings.Get("ReplacePMInquiryDocument").Value.ValueXml.InnerText, out boolSetting);
-
-                    if (success)
-                    {
-                        Controller.instance.Model.ReplacePMInquiryDocument = boolSetting;
-                    }
-                    else
-                    {
-                        Controller.instance.Model.ReplacePMInquiryDocument = false;
                     }
                 }
 
@@ -201,8 +171,15 @@ namespace GP.TransactionSearch
             model.GPSystemDB = systemDB;
             model.GPCompanyDB = companyDB;
         }
-               
-        
+
+
+
+        public PMSearchFilter PMSearchFilter {
+            get {
+                return Controller.pmSearchFilter;
+            }
+        }
+
         public PMTransaction GetPMTransaction(string trxNumber, string vendorID)
         {
             PMTransaction pmTrx = new PMTransaction();
@@ -222,6 +199,29 @@ namespace GP.TransactionSearch
             {
                 MessageBox.Show("An error occurred in Controller.GetPMTransaction: " + ex.Message);
                 return pmTrx;
+            }
+        }
+
+
+        public RMTransaction GetRMTransaction(string docNumber, int docType, string customerID)
+        {
+            RMTransaction rmTrx = new RMTransaction();
+
+            try
+            {
+                DataTable dataTable = DataAccess.GetRMTransactionInfo(docNumber, docType, customerID);
+                if (dataTable.Rows.Count == 1)
+                {
+                    rmTrx = ObjectMapper.DataRowToObject<RMTransaction>(dataTable.Rows[0]);
+                }
+
+                return rmTrx;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred in Controller.GetRMTransaction: " + ex.Message);
+                return rmTrx;
             }
         }
 

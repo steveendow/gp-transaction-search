@@ -17,18 +17,28 @@ namespace GP.TransactionSearch.Tester
         {
             InitializeComponent();
         }
+        
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
 
         private void btnOpenSearch_Click(object sender, EventArgs e)
         {
             Controller.Instance.Model.IsExternal = true;
-            Controller.Instance.SetConnectionInfo("GP2016", "sa", "spe", "DYNAMICS", "TWO");
+            Controller.Instance.SetConnectionInfo(txtServer.Text.Trim(), txtUser.Text.Trim(), txtPassword.Text.Trim(), txtSystemDB.Text.Trim(), txtCompanyDB.Text.Trim());
+
             PMTransactionSearch search = new PMTransactionSearch();
             search.Show();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void btnOpenRMSearch_Click(object sender, EventArgs e)
         {
+            Controller.Instance.Model.IsExternal = true;
+            Controller.Instance.SetConnectionInfo(txtServer.Text.Trim(), txtUser.Text.Trim(), txtPassword.Text.Trim(), txtSystemDB.Text.Trim(), txtCompanyDB.Text.Trim());
 
+            RMTransactionSearch search = new RMTransactionSearch();
+            search.Show();
         }
     }
 

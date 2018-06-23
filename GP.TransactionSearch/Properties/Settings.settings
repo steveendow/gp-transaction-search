@@ -5,12 +5,6 @@
     <Setting Name="SearchAsYouType" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="ReplacePMInquiryVendor" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
-    <Setting Name="ReplacePMInquiryDocument" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
-    </Setting>
     <Setting Name="PMVendorLabel" Type="System.String" Scope="User">
       <Value Profile="(Default)">Debtor</Value>
     </Setting>

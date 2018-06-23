@@ -1,17 +1,48 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Dexterity.Bridge;
 using Microsoft.Dexterity.Applications;
 using Microsoft.Dexterity.Applications.DynamicsDictionary;
 using System.Windows.Forms;
-using System.ComponentModel;
+using Microsoft.Dexterity.Applications.MenusForVisualStudioToolsDictionary;
+
 
 namespace GP.TransactionSearch
 {
     public class GPAddIn : IDexterityAddIn
     {
         // IDexterityAddIn interface
+
+        // Application Name
+        const string APPNAME = "GP Transaction Search";
+
+        // Dictionary ID Constants
+        const short DYNAMICS = 0;
+
+        // Shortcut Key Modifier Constants
+        const int COMMAND_SHORTCUT_CTRL = 65536;
+        const int COMMAND_SHORTCUT_CTRLSHIFT = 327680;
+        const int COMMAND_SHORTCUT_CTRLALT = 196608;
+        const int COMMAND_SHORTCUT_ALT = 131072;
+        const int COMMAND_SHORTCUT_ALTSHIFT = 393216;
+        const int COMMAND_SHORTCUT_CTRLALTSHIFT = 458752;
+
+        // Shortcut Key Function Key Constants, can be used instead of ASCII value
+        const short COMMAND_SHORTCUT_KEY_F1 = 112;
+        const short COMMAND_SHORTCUT_KEY_F2 = 113;
+        const short COMMAND_SHORTCUT_KEY_F3 = 114;
+        const short COMMAND_SHORTCUT_KEY_F4 = 115;
+        const short COMMAND_SHORTCUT_KEY_F5 = 116;
+        const short COMMAND_SHORTCUT_KEY_F6 = 117;
+        const short COMMAND_SHORTCUT_KEY_F7 = 118;
+        const short COMMAND_SHORTCUT_KEY_F8 = 119;
+        const short COMMAND_SHORTCUT_KEY_F9 = 120;
+        const short COMMAND_SHORTCUT_KEY_F10 = 121;
+        const short COMMAND_SHORTCUT_KEY_F11 = 122;
+        const short COMMAND_SHORTCUT_KEY_F12 = 123;
+
+        short PMTrxSearchMenuTag;
+        short RMTrxSearchMenuTag;
+        short GLTrxSearchMenuTag;
 
         public static PmTransactionInquiryForm pmTrxInquiryForm = Dynamics.Forms.PmTransactionInquiry;
         public static PmTransactionInquiryDocumentForm pmTrxInquiryDocForm = Dynamics.Forms.PmTransactionInquiryDocument;
@@ -23,7 +54,19 @@ namespace GP.TransactionSearch
 
         public static PmVendorMaintenanceForm.PmVendorMaintenanceWindow pmVendorMaintWindow = pmVendorMaintForm.PmVendorMaintenance;
 
+
+        public static RmTransactionInquiryForm rmTrxInquiryForm = Dynamics.Forms.RmTransactionInquiry;
+        public static RmTransactionInquiryDocumentForm rmTrxInquiryDocForm = Dynamics.Forms.RmTransactionInquiryDocument;
+        public static RmCustomerMaintenanceForm rmCustomerMaintForm = Dynamics.Forms.RmCustomerMaintenance;
+
+        public static RmSalesInquiryForm rmSalesInquiryForm = Dynamics.Forms.RmSalesInquiry;
+                
+        public static RmCustomerMaintenanceForm.RmCustomerMaintenanceWindow rmCustomerMaintWindow = rmCustomerMaintForm.RmCustomerMaintenance;
+
+        
         private static PMTransactionSearch pmSearch = null;
+        private static RMTransactionSearch rmSearch = null;
+
 
         public void Initialize()
         {
@@ -33,85 +76,260 @@ namespace GP.TransactionSearch
                 MessageBox.Show("Failed to load GP Transaction Search configuration", "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             
-            pmTrxInquiryForm.AddMenuHandler(OpenPmTransactionSearch, "Open PM Transaction Search", "P");
-            pmTrxInquiryDocForm.AddMenuHandler(OpenPmTransactionSearch, "Open PM Transaction Search", "P");
-            pmVendorMaintForm.AddMenuHandler(OpenPmTransactionSearchVendor, "Open PM Transaction Search", "P");
+            pmTrxInquiryForm.AddMenuHandler(OpenPMTransactionSearch, "Open PM Transaction Search", "P");
+            pmTrxInquiryDocForm.AddMenuHandler(OpenPMTransactionSearch, "Open PM Transaction Search", "P");
+            pmVendorMaintForm.AddMenuHandler(OpenPMTransactionSearchVendor, "Open PM Transaction Search", "P");
 
-            //PmTransactionInquiryForm.PmTransactionInquiryWindow pmTrxInquiryWindow = pmTrxInquiryForm.PmTransactionInquiry;
-            
-            pmTrxInquiryForm.OpenBeforeOriginal += new System.ComponentModel.CancelEventHandler(ReplacePMInquiryVendor);
-            //6/7/2018: S. Endow: The Inquiry Document window does not behave well when cancelled or closed by the OpenBeforeOriginal window
-            pmTrxInquiryDocForm.OpenBeforeOriginal += new System.ComponentModel.CancelEventHandler(ReplacePMInquiryDocument);
-            pmTrxInquiryDocForm.OpenAfterOriginal += new  EventHandler(ClosePMTrxInquiryDoc);
+            rmTrxInquiryForm.AddMenuHandler(OpenRMTransactionSearch, "Open RM Transaction Search", "R");
+            rmSalesInquiryForm.AddMenuHandler(OpenRMTransactionSearch, "Open RM Transaction Search", "R");
+            rmCustomerMaintForm.AddMenuHandler(OpenRMTransactionSearchCustomer, "Open RM Transaction Search", "R");
 
-            //Return focus to PM Search window after the transaction zoom window is closed
+
+            // Register Event to add menu entries
+            MenusForVisualStudioTools.Functions.EventRegister.InvokeAfterOriginal += new EventRegisterFunction.InvokeEventHandler(VSTMCommandFormRegister);
+            // Register Event to handle callbacks from menu entries
+            MenusForVisualStudioTools.Functions.EventHandler.InvokeAfterOriginal += new EventHandlerFunction.InvokeEventHandler(VSTMCommandFormCallback);
+
+
+            //Return focus to PM Search window after the drill down / zoom window is closed
             pmTrxEntryZoom.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
             pmPaymentsZoom.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
             pmVendorInquiryForm.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
-            
+
+            rmTrxInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
+            rmTrxInquiryDocForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
+            rmSalesInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
+
         }
 
 
-        //6/7/2018: S. Endow: The Inquiry Document window behaves differently than the Inquiry Vendor window
-        //Form.Close() in OpenBeforeOriginal causes a Dex error. Using e.Cancel avoids the error, but prevents the Transaction Search window
-        //from being opened again.  For now, use OpenAfterOriginal to close the Inquiry Document window, then open PM Search.
-        private void ReplacePMInquiryDocument(object sender, CancelEventArgs e)
+        // Script to Register menu entries
+        // void VSTMCommandFormRegister(object sender, EventArgs e)
+        private void VSTMCommandFormRegister(object sender, EventRegisterFunction.InvokeEventArgs e)
         {
-            if (Controller.Instance.Model.ReplacePMInquiryDocument)
-            {
-                //Use e.Cancel to cancel / suppress the GP form open
-                //e.Cancel = true;
-                //pmTrxInquiryDocForm.Close();
+            short ParentTag = 0;
+            short BelowTag = 0;
+            short ResID = 0;
+            short Err = 0;
 
-                OpenPMSearch();
+            try
+            {
+                // Get Parent Tag for command list to add menu to
+                ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Purchasing", "CL_Purchasing_Inquiry");           // Dictionary ID, Form Name, Command Name
+                if (ParentTag <= 0)
+                {
+                    throw new Exception("PM Parent GetTagByName, error code: " + Convert.ToString(ParentTag));
+                }
+
+                // Get Below Tag for command/command list to add menu below
+                BelowTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Purchasing", "PM_Transaction_Inquiry_Document");  // Dictionary ID, Form Name, Command Name
+                if (BelowTag <= 0)
+                {
+                    throw new Exception("PM Below GetTagByName, error code: " + Convert.ToString(BelowTag));
+                }
+
+                // Get Security Form Resource ID for menus to inherit security access from
+                ResID = MenusForVisualStudioTools.Functions.GetFormResId.Invoke(DYNAMICS, "PM_Transaction_Inquiry");                   // Get Form Resource ID for Security 
+                if (ResID <= 0)
+                {
+                    throw new Exception("PM GetFormResId, error code: " + Convert.ToString(ResID));
+                }
+                                
+                // Add Menu entry using API Function call to create first sub menu entry with security
+                PMTrxSearchMenuTag = MenusForVisualStudioTools.Functions.RegisterWithSecurity.Invoke(
+                                    ParentTag,                                                      // Parent Command Tag
+                                    "PM Transaction Search",                                // Menu Caption
+                                    "Open PM Transaction Search",                           // Menu Tooltip
+                                    (int)'P', COMMAND_SHORTCUT_CTRLSHIFT,                     // Menu Shortcut Key, Shortcut Modifier
+                                    false, false, false,                                     // Checked, Disabled, Hidden
+                                    BelowTag,                                               // Add Below Command Tag
+                                    false, false,                                            // Add Separator, Add Command List
+                                    DYNAMICS, ResID);                                       // Security Dictionary and Form Resource ID
+                if (PMTrxSearchMenuTag <= 0)
+                {
+                    throw new Exception("PM Transaction Search  RegisterWithSecurity, error code: " + Convert.ToString(PMTrxSearchMenuTag));
+                }
+
+
+
+
+                ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Sales", "CL_Sales_Inquiry");           // Dictionary ID, Form Name, Command Name
+                if (ParentTag <= 0)
+                {
+                    throw new Exception("RM Parent GetTagByName, error code: " + Convert.ToString(ParentTag));
+                }
+
+                // Get Below Tag for command/command list to add menu below
+                BelowTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Sales", "RM_Transaction_Inquiry_Document");  // Dictionary ID, Form Name, Command Name
+                if (BelowTag <= 0)
+                {
+                    throw new Exception("RM Below GetTagByName, error code: " + Convert.ToString(BelowTag));
+                }
+
+                // Get Security Form Resource ID for menus to inherit security access from
+                ResID = MenusForVisualStudioTools.Functions.GetFormResId.Invoke(DYNAMICS, "RM_Transaction_Inquiry");                   // Get Form Resource ID for Security 
+                if (ResID <= 0)
+                {
+                    throw new Exception("RM GetFormResId, error code: " + Convert.ToString(ResID));
+                }
                 
-                SetPMTransactionSearchFocus();
-            }
-        }
+                // Add Menu entry using API Function call to create first sub menu entry with security
+                RMTrxSearchMenuTag = MenusForVisualStudioTools.Functions.RegisterWithSecurity.Invoke(
+                                    ParentTag,                                                      // Parent Command Tag
+                                    "RM Transaction Search",                                // Menu Caption
+                                    "Open RM Transaction Search",                           // Menu Tooltip
+                                    (int)'R', COMMAND_SHORTCUT_CTRLSHIFT,                     // Menu Shortcut Key, Shortcut Modifier
+                                    false, false, false,                                     // Checked, Disabled, Hidden
+                                    BelowTag,                                               // Add Below Command Tag
+                                    false, false,                                            // Add Separator, Add Command List
+                                    DYNAMICS, ResID);                                       // Security Dictionary and Form Resource ID
+                if (RMTrxSearchMenuTag <= 0)
+                {
+                    throw new Exception("RM Transaction Search RegisterWithSecurity, error code: " + Convert.ToString(RMTrxSearchMenuTag));
+                }
 
-        private void ClosePMTrxInquiryDoc(object sender, EventArgs e)
-        {
-            if (Controller.Instance.Model.ReplacePMInquiryDocument)
+
+
+
+
+                ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Financial", "CL_Financial_Inquiry");           // Dictionary ID, Form Name, Command Name
+                if (ParentTag <= 0)
+                {
+                    throw new Exception("GL GetTagByName, error code: " + Convert.ToString(ParentTag));
+                }
+
+                // Get Below Tag for command/command list to add menu below
+                BelowTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Financial", "GL_Inquiry_Current_Summary");  // Dictionary ID, Form Name, Command Name
+                if (BelowTag <= 0)
+                {
+                    throw new Exception("GL Below GetTagByName, error code: " + Convert.ToString(BelowTag));
+                }
+
+                // Get Security Form Resource ID for menus to inherit security access from
+                ResID = MenusForVisualStudioTools.Functions.GetFormResId.Invoke(DYNAMICS, "GL_Inquiry_Current_Detail");                   // Get Form Resource ID for Security 
+                if (ResID <= 0)
+                {
+                    throw new Exception("GL GetFormResId, error code: " + Convert.ToString(ResID));
+                }
+                               
+                // Add Menu entry using API Function call to create first sub menu entry with security
+                GLTrxSearchMenuTag = MenusForVisualStudioTools.Functions.RegisterWithSecurity.Invoke(
+                                    ParentTag,                                                      // Parent Command Tag
+                                    "GL Transaction Search",                                // Menu Caption
+                                    "Open GL Transaction Search",                           // Menu Tooltip
+                                    (int)'G', COMMAND_SHORTCUT_CTRLSHIFT,                     // Menu Shortcut Key, Shortcut Modifier
+                                    false, false, false,                                     // Checked, Disabled, Hidden
+                                    BelowTag,                                               // Add Below Command Tag
+                                    false, false,                                            // Add Separator, Add Command List
+                                    DYNAMICS, ResID);                                       // Security Dictionary and Form Resource ID
+                if (GLTrxSearchMenuTag <= 0)
+                {
+                    throw new Exception("GL Transaction Search RegisterWithSecurity, error code: " + Convert.ToString(GLTrxSearchMenuTag));
+                }
+
+            }
+            catch (Exception ex)
             {
-                pmTrxInquiryDocForm.Close();
-                //OpenPMSearch();
-                SetPMTransactionSearchFocus();
+                MessageBox.Show(ex.Message, APPNAME);
+
+                // Unregister menu entry
+                if (PMTrxSearchMenuTag > 0)
+                {
+                    Err = MenusForVisualStudioTools.Functions.Unregister.Invoke(0, PMTrxSearchMenuTag);
+                    if (Err < 0)
+                    {
+                        MessageBox.Show("PM Transaction Search Menu Unregister, error code: " + Convert.ToString(Err), APPNAME);
+                    }
+                }
+
+                // Unregister menu entry
+                if (RMTrxSearchMenuTag > 0)
+                {
+                    Err = MenusForVisualStudioTools.Functions.Unregister.Invoke(0, RMTrxSearchMenuTag);
+                    if (Err < 0)
+                    {
+                        MessageBox.Show("RM Transaction Search Menu Unregister, error code: " + Convert.ToString(Err), APPNAME);
+                    }
+                }
+
+                // Unregister menu entry
+                if (GLTrxSearchMenuTag > 0)
+                {
+                    Err = MenusForVisualStudioTools.Functions.Unregister.Invoke(0, GLTrxSearchMenuTag);
+                    if (Err < 0)
+                    {
+                        MessageBox.Show("GL Transaction Search Menu Unregister, error code: " + Convert.ToString(Err), APPNAME);
+                    }
+                }
+
             }
         }
 
-        //6/6/2018: S. Endow: Modify method to use a CancelEventArgs parameter instead of EventArgs, as it is a CancelEventHandler
-        private void ReplacePMInquiryVendor(object sender, CancelEventArgs e)
+
+        // Script to handle menu entry callbacks
+        // void VSTMCommandFormCallback(object sender, EventArgs e)
+        void VSTMCommandFormCallback(object sender, EventHandlerFunction.InvokeEventArgs e)
         {
-            //6/7/2018: S. Endow: It seems that the PM Trx Inquiry Vendor behaves differently than the Document inquiry window
-            //Using e.Cancel with the Vendor window throws a Dex error. Use .Close() instead
-            if (Controller.Instance.Model.ReplacePMInquiryVendor)
+            short Tag = 0;
+            string Caption = "";
+
+            // Get Callback Tag Number for menu entry
+            // Tag = MenusForVisualStudioTools.Functions.Callback.Invoke();
+            Tag = e.inParam1;
+
+            // Compare Tag Sequence Number with Menu Sequence obtained during registration
+            if (Tag == PMTrxSearchMenuTag)
             {
                 OpenPMSearch();
-                //Use e.Cancel to cancel / suppress the GP form open
-                //e.Cancel = true;
-                pmTrxInquiryForm.Close();
+            }
+            else if (Tag == RMTrxSearchMenuTag)
+            {
+                OpenRMSearch();
+            }
 
+
+            //else if (Tag == MenuTag2)
+            //{
+            //    // Display Menu Caption
+            //    MenusForVisualStudioTools.Functions.GetCaption.Invoke(MenuTag2, out Caption);
+            //    MessageBox.Show(Caption, APPNAME);
+
+            //    // Disable second menu entry
+            //    MenusForVisualStudioTools.Functions.Disable.Invoke(MenuTag2, true);
+            //}
+            //else if (Tag == MenuTag3)
+            //{
+            //    // Display Menu Caption
+            //    MenusForVisualStudioTools.Functions.GetCaption.Invoke(MenuTag3, out Caption);
+            //    MessageBox.Show(Caption, APPNAME);
+
+            //    // Hide third menu entry
+            //    MenusForVisualStudioTools.Functions.Hide.Invoke(MenuTag3, true);
+            //}
+            //else if (Tag == MenuTag4)
+            //{
+            //    // Display Menu Caption
+            //    MenusForVisualStudioTools.Functions.GetCaption.Invoke(MenuTag4, out Caption);
+            //    MessageBox.Show(Caption, APPNAME);
+            //}
+            else
+            {
+                // Not one of this application's menu entries
             }
         }
 
-        
 
-        private void OpenPmTransactionSearch(object sender, EventArgs e)
+        private void OpenPMTransactionSearch(object sender, EventArgs e)
         {
             OpenPMSearch();
         }
 
-        private void OpenPmTransactionSearchVendor(object sender, EventArgs e)
+        private void OpenPMTransactionSearchVendor(object sender, EventArgs e)
         {
             Controller.Instance.Model.VendorIDDefault = pmVendorMaintWindow.VendorId.Value.Trim();
             OpenPMSearch();
         }
-
-
-        private void btnPMSearch_Click(object sender, EventArgs e)
-        {
-            OpenPMSearch();
-        }
+        
 
         private void OpenPMSearch()
         {
@@ -131,12 +349,48 @@ namespace GP.TransactionSearch
                 SetPMTransactionSearchFocus();
             }
         }
-
-
+        
         private void SetPMTransactionSearchFocus()
         {
             Application.OpenForms[pmSearch.Name].Focus();
             Controller.Instance.Model.PMSearchFocus = false;
+        }
+
+
+        private void OpenRMTransactionSearch(object sender, EventArgs e)
+        {
+            OpenRMSearch();
+        }
+
+        private void OpenRMSearch()
+        {
+            if (rmSearch == null)
+            {
+                rmSearch = new RMTransactionSearch();
+                rmSearch.FormClosed += delegate { rmSearch = null; };
+                rmSearch.Show();
+            }
+            Application.OpenForms[rmSearch.Name].Focus();
+        }
+
+        private void SetRMSearchFocus(object sender, EventArgs e)
+        {
+            if (Controller.Instance.Model.RMSearchFocus)
+            {
+                SetRMTransactionSearchFocus();
+            }
+        }
+
+        private void SetRMTransactionSearchFocus()
+        {
+            Application.OpenForms[rmSearch.Name].Focus();
+            Controller.Instance.Model.RMSearchFocus = false;
+        }
+
+        private void OpenRMTransactionSearchCustomer(object sender, EventArgs e)
+        {
+            Controller.Instance.Model.CustomerIDDefault = rmCustomerMaintWindow.CustomerNumber.Value.Trim();
+            OpenRMSearch();
         }
 
     }

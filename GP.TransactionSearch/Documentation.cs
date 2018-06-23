@@ -48,11 +48,17 @@
  * -When opening the PM Transaction Search window from Vendor Maintenance, default the vendor ID on the search window
  *  and pre-populate grid with vendor data.
  * -Fix tab order of search filter fields on PMTransactionSearch window
- *  
+ * 
+ * -v2.0.0.0 - June 18, 2018
+ * -Create v2 branch
+ * -Add support for custom GP menus using VST Menus from Winthrop Visual Studio Integration Toolkit
+ * -Remove code to replace PM Inquiry windows
+ * 
  */
 
 
 // TODO: Add optional config file settings to override PM Transaction Search window labels, allowing replacement of Vendor -> Creditor
 
+// TODO: Research GP protocol handler for drill down to POP and SOP transaction inquiry windows http://timwappat.info/post/2015/08/20/Asynchronous-pluggable-Protocol-Handler-for-Dynamics-GP-(or-drilldowndrllback)
 
 // WISHLIST: Add support for POP Invoice Zoom window (Requires Dex assistance)

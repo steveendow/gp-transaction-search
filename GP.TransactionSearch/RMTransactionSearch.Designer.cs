@@ -1,6 +1,6 @@
 ﻿namespace GP.TransactionSearch
 {
-    partial class PMTransactionSearch
+    partial class RMTransactionSearch
     {
         /// <summary>
         /// Required designer variable.
@@ -33,10 +33,10 @@
             this.dateEnd = new System.Windows.Forms.DateTimePicker();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.txtVendorID = new System.Windows.Forms.TextBox();
-            this.lblVendorID = new System.Windows.Forms.Label();
-            this.lblVendorName = new System.Windows.Forms.Label();
-            this.txtVendorName = new System.Windows.Forms.TextBox();
+            this.txtMasterID = new System.Windows.Forms.TextBox();
+            this.lblMasterID = new System.Windows.Forms.Label();
+            this.lblMasterName = new System.Windows.Forms.Label();
+            this.txtMasterName = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.txtDocNumber = new System.Windows.Forms.TextBox();
             this.statusPMTransaction = new System.Windows.Forms.StatusStrip();
@@ -49,7 +49,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtAmountFrom = new System.Windows.Forms.TextBox();
             this.btnRefresh = new System.Windows.Forms.Button();
-            this.cmsPMTransaction = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cmsRMTransaction = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmViewMaster = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmViewTransaction = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCopy = new System.Windows.Forms.Button();
@@ -60,7 +60,7 @@
             this.statusPMTransaction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsPMTransaction)).BeginInit();
-            this.cmsPMTransaction.SuspendLayout();
+            this.cmsRMTransaction.SuspendLayout();
             this.SuspendLayout();
             // 
             // dateStart
@@ -105,39 +105,39 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "To Date:";
             // 
-            // txtVendorID
+            // txtMasterID
             // 
-            this.txtVendorID.Location = new System.Drawing.Point(276, 8);
-            this.txtVendorID.Name = "txtVendorID";
-            this.txtVendorID.Size = new System.Drawing.Size(97, 20);
-            this.txtVendorID.TabIndex = 2;
-            this.txtVendorID.TextChanged += new System.EventHandler(this.txtVendorID_TextChanged);
+            this.txtMasterID.Location = new System.Drawing.Point(276, 8);
+            this.txtMasterID.Name = "txtMasterID";
+            this.txtMasterID.Size = new System.Drawing.Size(97, 20);
+            this.txtMasterID.TabIndex = 2;
+            this.txtMasterID.TextChanged += new System.EventHandler(this.txtVendorID_TextChanged);
             // 
-            // lblVendorID
+            // lblMasterID
             // 
-            this.lblVendorID.AutoSize = true;
-            this.lblVendorID.Location = new System.Drawing.Point(190, 12);
-            this.lblVendorID.Name = "lblVendorID";
-            this.lblVendorID.Size = new System.Drawing.Size(58, 13);
-            this.lblVendorID.TabIndex = 5;
-            this.lblVendorID.Text = "Vendor ID:";
+            this.lblMasterID.AutoSize = true;
+            this.lblMasterID.Location = new System.Drawing.Point(190, 12);
+            this.lblMasterID.Name = "lblMasterID";
+            this.lblMasterID.Size = new System.Drawing.Size(68, 13);
+            this.lblMasterID.TabIndex = 5;
+            this.lblMasterID.Text = "Customer ID:";
             // 
-            // lblVendorName
+            // lblMasterName
             // 
-            this.lblVendorName.AutoSize = true;
-            this.lblVendorName.Location = new System.Drawing.Point(190, 38);
-            this.lblVendorName.Name = "lblVendorName";
-            this.lblVendorName.Size = new System.Drawing.Size(75, 13);
-            this.lblVendorName.TabIndex = 7;
-            this.lblVendorName.Text = "Vendor Name:";
+            this.lblMasterName.AutoSize = true;
+            this.lblMasterName.Location = new System.Drawing.Point(190, 38);
+            this.lblMasterName.Name = "lblMasterName";
+            this.lblMasterName.Size = new System.Drawing.Size(62, 13);
+            this.lblMasterName.TabIndex = 7;
+            this.lblMasterName.Text = "Cust Name:";
             // 
-            // txtVendorName
+            // txtMasterName
             // 
-            this.txtVendorName.Location = new System.Drawing.Point(276, 34);
-            this.txtVendorName.Name = "txtVendorName";
-            this.txtVendorName.Size = new System.Drawing.Size(97, 20);
-            this.txtVendorName.TabIndex = 3;
-            this.txtVendorName.TextChanged += new System.EventHandler(this.txtVendorName_TextChanged);
+            this.txtMasterName.Location = new System.Drawing.Point(276, 34);
+            this.txtMasterName.Name = "txtMasterName";
+            this.txtMasterName.Size = new System.Drawing.Size(97, 20);
+            this.txtMasterName.TabIndex = 3;
+            this.txtMasterName.TextChanged += new System.EventHandler(this.txtVendorName_TextChanged);
             // 
             // label5
             // 
@@ -248,25 +248,25 @@
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
-            // cmsPMTransaction
+            // cmsRMTransaction
             // 
-            this.cmsPMTransaction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cmsRMTransaction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmViewMaster,
             this.tsmViewTransaction});
-            this.cmsPMTransaction.Name = "cmsPMTransaction";
-            this.cmsPMTransaction.Size = new System.Drawing.Size(165, 48);
+            this.cmsRMTransaction.Name = "cmsPMTransaction";
+            this.cmsRMTransaction.Size = new System.Drawing.Size(181, 70);
             // 
             // tsmViewMaster
             // 
             this.tsmViewMaster.Name = "tsmViewMaster";
-            this.tsmViewMaster.Size = new System.Drawing.Size(164, 22);
-            this.tsmViewMaster.Text = "View Vendor";
+            this.tsmViewMaster.Size = new System.Drawing.Size(180, 22);
+            this.tsmViewMaster.Text = "View Customer";
             this.tsmViewMaster.Click += new System.EventHandler(this.tsmViewMaster_Click);
             // 
             // tsmViewTransaction
             // 
             this.tsmViewTransaction.Name = "tsmViewTransaction";
-            this.tsmViewTransaction.Size = new System.Drawing.Size(164, 22);
+            this.tsmViewTransaction.Size = new System.Drawing.Size(180, 22);
             this.tsmViewTransaction.Text = "View Transaction";
             this.tsmViewTransaction.Click += new System.EventHandler(this.tsmViewTransaction_Click);
             // 
@@ -309,7 +309,7 @@
             this.label7.TabIndex = 18;
             this.label7.Text = "To:";
             // 
-            // PMTransactionSearch
+            // RMTransactionSearch
             // 
             this.AcceptButton = this.btnRefresh;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -326,23 +326,23 @@
             this.Controls.Add(this.statusPMTransaction);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtDocNumber);
-            this.Controls.Add(this.lblVendorName);
-            this.Controls.Add(this.txtVendorName);
-            this.Controls.Add(this.lblVendorID);
-            this.Controls.Add(this.txtVendorID);
+            this.Controls.Add(this.lblMasterName);
+            this.Controls.Add(this.txtMasterName);
+            this.Controls.Add(this.lblMasterID);
+            this.Controls.Add(this.txtMasterID);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dateEnd);
             this.Controls.Add(this.dateStart);
-            this.Name = "PMTransactionSearch";
+            this.Name = "RMTransactionSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PM Transaction Search";
-            this.Load += new System.EventHandler(this.PMTransactionSearch_Load);
+            this.Text = "RM Transaction Search";
+            this.Load += new System.EventHandler(this.RMTransactionSearch_Load);
             this.statusPMTransaction.ResumeLayout(false);
             this.statusPMTransaction.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsPMTransaction)).EndInit();
-            this.cmsPMTransaction.ResumeLayout(false);
+            this.cmsRMTransaction.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -354,10 +354,10 @@
         private System.Windows.Forms.DateTimePicker dateEnd;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtVendorID;
-        private System.Windows.Forms.Label lblVendorID;
-        private System.Windows.Forms.Label lblVendorName;
-        private System.Windows.Forms.TextBox txtVendorName;
+        private System.Windows.Forms.TextBox txtMasterID;
+        private System.Windows.Forms.Label lblMasterID;
+        private System.Windows.Forms.Label lblMasterName;
+        private System.Windows.Forms.TextBox txtMasterName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtDocNumber;
         private System.Windows.Forms.StatusStrip statusPMTransaction;
@@ -370,7 +370,7 @@
         private System.Windows.Forms.ToolStripStatusLabel status2;
         private System.Windows.Forms.ToolStripStatusLabel status3;
         private System.Windows.Forms.ToolStripStatusLabel status4;
-        private System.Windows.Forms.ContextMenuStrip cmsPMTransaction;
+        private System.Windows.Forms.ContextMenuStrip cmsRMTransaction;
         private System.Windows.Forms.ToolStripMenuItem tsmViewMaster;
         private System.Windows.Forms.ToolStripMenuItem tsmViewTransaction;
         private System.Windows.Forms.Button btnCopy;

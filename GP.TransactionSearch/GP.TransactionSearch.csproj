@@ -40,6 +40,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Application.Dynamics.dll</HintPath>
     </Reference>
+    <Reference Include="Application.MenusForVisualStudioTools">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Application.MenusForVisualStudioTools.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="GPSQLConnection2016, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>GPSQLConnection\GPSQLConnection2016.dll</HintPath>
@@ -69,6 +73,13 @@
     <Compile Include="GpAddIn.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="PMTransaction.cs" />
+    <Compile Include="RMTransaction.cs" />
+    <Compile Include="RMTransactionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RMTransactionSearch.Designer.cs">
+      <DependentUpon>RMTransactionSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="PMTransactionSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +87,16 @@
       <DependentUpon>PMTransactionSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchFilter.cs" />
+    <Compile Include="TransactionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TransactionSearch.Designer.cs">
+      <DependentUpon>TransactionSearch.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="RMTransactionSearch.resx">
+      <DependentUpon>RMTransactionSearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PMTransactionSearch.resx">
       <DependentUpon>PMTransactionSearch.cs</DependentUpon>
     </EmbeddedResource>
@@ -83,6 +104,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransactionSearch.resx">
+      <DependentUpon>TransactionSearch.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
     <None Include="Properties\Settings.settings">

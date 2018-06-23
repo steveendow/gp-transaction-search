@@ -36,28 +36,6 @@ namespace GP.TransactionSearch.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public bool ReplacePMInquiryVendor {
-            get {
-                return ((bool)(this["ReplacePMInquiryVendor"]));
-            }
-            set {
-                this["ReplacePMInquiryVendor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public bool ReplacePMInquiryDocument {
-            get {
-                return ((bool)(this["ReplacePMInquiryDocument"]));
-            }
-            set {
-                this["ReplacePMInquiryDocument"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Debtor")]
         public string PMVendorLabel {
             get {

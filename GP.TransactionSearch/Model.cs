@@ -21,11 +21,13 @@ namespace GP.TransactionSearch
         
         public bool SearchAsYouType { get; set; }
 
+        public int NextSearchFilterKey { get; set; }
+
         public bool PMSearchFocus { get; set; }
-        public bool ReplacePMInquiryVendor { get; set; }
-        public bool ReplacePMInquiryDocument { get; set; }
         public string VendorIDDefault { get; set; }
         public string PMVendorLabel { get; set; }
 
+        public bool RMSearchFocus { get; set; }
+        public string CustomerIDDefault { get; internal set; }
     }
 }
