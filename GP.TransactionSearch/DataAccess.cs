@@ -318,6 +318,47 @@ namespace GP.TransactionSearch
         }
 
 
+        internal static DataTable SOPTransactionSearch(DateTime startDate, DateTime endDate, string docNumber, string customerID, string customerName, decimal amountFrom, decimal amountTo)
+        {
+            try
+            {
+
+                string commandText = "csspSOPTransactionSearch";
+
+                SqlParameter[] sqlParameters = new SqlParameter[7];
+                sqlParameters[0] = new SqlParameter("@StartDate", System.Data.SqlDbType.DateTime);
+                sqlParameters[0].Value = startDate;
+                sqlParameters[1] = new SqlParameter("@EndDate", System.Data.SqlDbType.DateTime);
+                sqlParameters[1].Value = endDate;
+                sqlParameters[2] = new SqlParameter("@DocNumber", System.Data.SqlDbType.VarChar, 21);
+                sqlParameters[2].Value = docNumber;
+                sqlParameters[3] = new SqlParameter("@CustomerID", System.Data.SqlDbType.VarChar, 15);
+                sqlParameters[3].Value = customerID;
+                sqlParameters[4] = new SqlParameter("@CustomerName", System.Data.SqlDbType.VarChar, 65);
+                sqlParameters[4].Value = customerName;
+                sqlParameters[5] = new SqlParameter("@AmountFrom", System.Data.SqlDbType.Decimal);
+                sqlParameters[5].Value = amountFrom;
+                sqlParameters[6] = new SqlParameter("@AmountTo", System.Data.SqlDbType.Decimal);
+                sqlParameters[6].Value = amountTo;
+
+                DataTable dataTable = new DataTable();
+
+                SqlConnection sqlConn = ConnectionGP();
+
+                int records = ExecuteDataSet(ref dataTable, sqlConn, Controller.Instance.Model.GPCompanyDB, CommandType.StoredProcedure, commandText, sqlParameters);
+
+                return dataTable;
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred in SOPTransactionSearch: " + ex.Message);
+                return null;
+            }
+        }
+
+
+
         internal static DataTable GetPMTransactionInfo(string trxNumber, string vendorID)
         {
             try
@@ -362,7 +403,7 @@ namespace GP.TransactionSearch
                 commandText += "RTRIM(CHEKNMBR) AS CHEKNMBR, DOCDATE, NEGQTYSOPINV, DEX_ROW_ID ";
                 commandText += "FROM dbo.RM00401 WHERE DOCNUMBR = @DOCNUMBR AND RMDTYPAL = @RMDTYPAL AND CUSTNMBR = @CUSTNMBR";
 
-                SqlParameter[] sqlParameters = new SqlParameter[2];
+                SqlParameter[] sqlParameters = new SqlParameter[3];
                 sqlParameters[0] = new SqlParameter("@DOCNUMBR", System.Data.SqlDbType.VarChar, 21);
                 sqlParameters[0].Value = docNumber;
                 sqlParameters[1] = new SqlParameter("@RMDTYPAL", System.Data.SqlDbType.VarChar, 21);

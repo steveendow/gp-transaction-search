@@ -40,6 +40,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.btnOpenRMSearch = new System.Windows.Forms.Button();
+            this.btnOpenSOPSearch = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnOpenPMSearch
@@ -153,12 +154,26 @@
             this.btnOpenRMSearch.UseVisualStyleBackColor = true;
             this.btnOpenRMSearch.Click += new System.EventHandler(this.btnOpenRMSearch_Click);
             // 
+            // btnOpenSOPSearch
+            // 
+            this.btnOpenSOPSearch.FlatAppearance.BorderSize = 0;
+            this.btnOpenSOPSearch.Location = new System.Drawing.Point(32, 223);
+            this.btnOpenSOPSearch.Margin = new System.Windows.Forms.Padding(0);
+            this.btnOpenSOPSearch.Name = "btnOpenSOPSearch";
+            this.btnOpenSOPSearch.Size = new System.Drawing.Size(186, 23);
+            this.btnOpenSOPSearch.TabIndex = 13;
+            this.btnOpenSOPSearch.Text = "Open SOP Transaction Search";
+            this.btnOpenSOPSearch.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnOpenSOPSearch.UseVisualStyleBackColor = true;
+            this.btnOpenSOPSearch.Click += new System.EventHandler(this.btnOpenSOPSearch_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(258, 280);
+            this.Controls.Add(this.btnOpenSOPSearch);
             this.Controls.Add(this.btnOpenRMSearch);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
@@ -194,6 +209,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnOpenRMSearch;
+        private System.Windows.Forms.Button btnOpenSOPSearch;
     }
 }
 

@@ -10,6 +10,9 @@ namespace GP.TransactionSearch
 {
     public class GPAddIn : IDexterityAddIn
     {
+
+        #region VSIT Setup
+
         // IDexterityAddIn interface
 
         // Application Name
@@ -40,8 +43,11 @@ namespace GP.TransactionSearch
         const short COMMAND_SHORTCUT_KEY_F11 = 122;
         const short COMMAND_SHORTCUT_KEY_F12 = 123;
 
+        #endregion
+
         short PMTrxSearchMenuTag;
         short RMTrxSearchMenuTag;
+        short SOPTrxSearchMenuTag;
         short GLTrxSearchMenuTag;
 
         public static PmTransactionInquiryForm pmTrxInquiryForm = Dynamics.Forms.PmTransactionInquiry;
@@ -58,14 +64,14 @@ namespace GP.TransactionSearch
         public static RmTransactionInquiryForm rmTrxInquiryForm = Dynamics.Forms.RmTransactionInquiry;
         public static RmTransactionInquiryDocumentForm rmTrxInquiryDocForm = Dynamics.Forms.RmTransactionInquiryDocument;
         public static RmCustomerMaintenanceForm rmCustomerMaintForm = Dynamics.Forms.RmCustomerMaintenance;
-
-        public static RmSalesInquiryForm rmSalesInquiryForm = Dynamics.Forms.RmSalesInquiry;
-                
+        public static RmSalesInquiryForm rmSalesInquiryForm = Dynamics.Forms.RmSalesInquiry;        
         public static RmCustomerMaintenanceForm.RmCustomerMaintenanceWindow rmCustomerMaintWindow = rmCustomerMaintForm.RmCustomerMaintenance;
 
+        public static SopInquiryForm sopInquiryForm = Dynamics.Forms.SopInquiry;
         
         private static PMTransactionSearch pmSearch = null;
         private static RMTransactionSearch rmSearch = null;
+        private static SOPTransactionSearch sopSearch = null;
 
 
         public void Initialize()
@@ -84,6 +90,8 @@ namespace GP.TransactionSearch
             rmSalesInquiryForm.AddMenuHandler(OpenRMTransactionSearch, "Open RM Transaction Search", "R");
             rmCustomerMaintForm.AddMenuHandler(OpenRMTransactionSearchCustomer, "Open RM Transaction Search", "R");
 
+            sopInquiryForm.AddMenuHandler(OpenSOPTransactionSearch, "Open SOP Transaction Search", "S");
+
 
             // Register Event to add menu entries
             MenusForVisualStudioTools.Functions.EventRegister.InvokeAfterOriginal += new EventRegisterFunction.InvokeEventHandler(VSTMCommandFormRegister);
@@ -96,9 +104,13 @@ namespace GP.TransactionSearch
             pmPaymentsZoom.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
             pmVendorInquiryForm.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
 
+            //Return focus to RM Search window after the drill down / zoom window is closed
+            rmCustomerMaintForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
             rmTrxInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
             rmTrxInquiryDocForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
             rmSalesInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
+
+            sopInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
 
         }
 
@@ -114,6 +126,7 @@ namespace GP.TransactionSearch
 
             try
             {
+                #region Add PM Transaction Search Menu
                 // Get Parent Tag for command list to add menu to
                 ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Purchasing", "CL_Purchasing_Inquiry");           // Dictionary ID, Form Name, Command Name
                 if (ParentTag <= 0)
@@ -149,10 +162,48 @@ namespace GP.TransactionSearch
                 {
                     throw new Exception("PM Transaction Search  RegisterWithSecurity, error code: " + Convert.ToString(PMTrxSearchMenuTag));
                 }
+                #endregion
+
+                
+                #region Add SOP Transaction Search Menu
+                ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Sales", "CL_Sales_Inquiry");           // Dictionary ID, Form Name, Command Name
+                if (ParentTag <= 0)
+                {
+                    throw new Exception("RM Parent GetTagByName, error code: " + Convert.ToString(ParentTag));
+                }
+
+                // Get Below Tag for command/command list to add menu below
+                BelowTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Sales", "RM_Transaction_Inquiry_Document");  // Dictionary ID, Form Name, Command Name
+                if (BelowTag <= 0)
+                {
+                    throw new Exception("RM Below GetTagByName, error code: " + Convert.ToString(BelowTag));
+                }
+
+                // Get Security Form Resource ID for menus to inherit security access from
+                ResID = MenusForVisualStudioTools.Functions.GetFormResId.Invoke(DYNAMICS, "RM_Transaction_Inquiry");                   // Get Form Resource ID for Security 
+                if (ResID <= 0)
+                {
+                    throw new Exception("RM GetFormResId, error code: " + Convert.ToString(ResID));
+                }
+
+                // Add Menu entry using API Function call to create first sub menu entry with security
+                SOPTrxSearchMenuTag = MenusForVisualStudioTools.Functions.RegisterWithSecurity.Invoke(
+                                    ParentTag,                                                      // Parent Command Tag
+                                    "SOP Transaction Search",                                // Menu Caption
+                                    "Open SOP Transaction Search",                           // Menu Tooltip
+                                    (int)'S', COMMAND_SHORTCUT_CTRLSHIFT,                     // Menu Shortcut Key, Shortcut Modifier
+                                    false, false, false,                                     // Checked, Disabled, Hidden
+                                    BelowTag,                                               // Add Below Command Tag
+                                    false, false,                                            // Add Separator, Add Command List
+                                    DYNAMICS, ResID);                                       // Security Dictionary and Form Resource ID
+                if (SOPTrxSearchMenuTag <= 0)
+                {
+                    throw new Exception("SOP Transaction Search RegisterWithSecurity, error code: " + Convert.ToString(RMTrxSearchMenuTag));
+                }
+                #endregion
 
 
-
-
+                #region Add RM Transaction Search Menu
                 ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Sales", "CL_Sales_Inquiry");           // Dictionary ID, Form Name, Command Name
                 if (ParentTag <= 0)
                 {
@@ -187,45 +238,50 @@ namespace GP.TransactionSearch
                 {
                     throw new Exception("RM Transaction Search RegisterWithSecurity, error code: " + Convert.ToString(RMTrxSearchMenuTag));
                 }
+                #endregion
 
 
 
 
 
-                ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Financial", "CL_Financial_Inquiry");           // Dictionary ID, Form Name, Command Name
-                if (ParentTag <= 0)
-                {
-                    throw new Exception("GL GetTagByName, error code: " + Convert.ToString(ParentTag));
-                }
 
-                // Get Below Tag for command/command list to add menu below
-                BelowTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Financial", "GL_Inquiry_Current_Summary");  // Dictionary ID, Form Name, Command Name
-                if (BelowTag <= 0)
-                {
-                    throw new Exception("GL Below GetTagByName, error code: " + Convert.ToString(BelowTag));
-                }
+                #region Add GL Transaction Search Menu
+                //ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Financial", "CL_Financial_Inquiry");           // Dictionary ID, Form Name, Command Name
+                //if (ParentTag <= 0)
+                //{
+                //    throw new Exception("GL GetTagByName, error code: " + Convert.ToString(ParentTag));
+                //}
 
-                // Get Security Form Resource ID for menus to inherit security access from
-                ResID = MenusForVisualStudioTools.Functions.GetFormResId.Invoke(DYNAMICS, "GL_Inquiry_Current_Detail");                   // Get Form Resource ID for Security 
-                if (ResID <= 0)
-                {
-                    throw new Exception("GL GetFormResId, error code: " + Convert.ToString(ResID));
-                }
+                //// Get Below Tag for command/command list to add menu below
+                //BelowTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Financial", "GL_Inquiry_Current_Summary");  // Dictionary ID, Form Name, Command Name
+                //if (BelowTag <= 0)
+                //{
+                //    throw new Exception("GL Below GetTagByName, error code: " + Convert.ToString(BelowTag));
+                //}
+
+                //// Get Security Form Resource ID for menus to inherit security access from
+                //ResID = MenusForVisualStudioTools.Functions.GetFormResId.Invoke(DYNAMICS, "GL_Inquiry_Current_Detail");                   // Get Form Resource ID for Security 
+                //if (ResID <= 0)
+                //{
+                //    throw new Exception("GL GetFormResId, error code: " + Convert.ToString(ResID));
+                //}
                                
-                // Add Menu entry using API Function call to create first sub menu entry with security
-                GLTrxSearchMenuTag = MenusForVisualStudioTools.Functions.RegisterWithSecurity.Invoke(
-                                    ParentTag,                                                      // Parent Command Tag
-                                    "GL Transaction Search",                                // Menu Caption
-                                    "Open GL Transaction Search",                           // Menu Tooltip
-                                    (int)'G', COMMAND_SHORTCUT_CTRLSHIFT,                     // Menu Shortcut Key, Shortcut Modifier
-                                    false, false, false,                                     // Checked, Disabled, Hidden
-                                    BelowTag,                                               // Add Below Command Tag
-                                    false, false,                                            // Add Separator, Add Command List
-                                    DYNAMICS, ResID);                                       // Security Dictionary and Form Resource ID
-                if (GLTrxSearchMenuTag <= 0)
-                {
-                    throw new Exception("GL Transaction Search RegisterWithSecurity, error code: " + Convert.ToString(GLTrxSearchMenuTag));
-                }
+                //// Add Menu entry using API Function call to create first sub menu entry with security
+                //GLTrxSearchMenuTag = MenusForVisualStudioTools.Functions.RegisterWithSecurity.Invoke(
+                //                    ParentTag,                                                      // Parent Command Tag
+                //                    "GL Transaction Search",                                // Menu Caption
+                //                    "Open GL Transaction Search",                           // Menu Tooltip
+                //                    (int)'G', COMMAND_SHORTCUT_CTRLSHIFT,                     // Menu Shortcut Key, Shortcut Modifier
+                //                    false, false, false,                                     // Checked, Disabled, Hidden
+                //                    BelowTag,                                               // Add Below Command Tag
+                //                    false, false,                                            // Add Separator, Add Command List
+                //                    DYNAMICS, ResID);                                       // Security Dictionary and Form Resource ID
+                //if (GLTrxSearchMenuTag <= 0)
+                //{
+                //    throw new Exception("GL Transaction Search RegisterWithSecurity, error code: " + Convert.ToString(GLTrxSearchMenuTag));
+                //}
+                #endregion
+
 
             }
             catch (Exception ex)
@@ -239,6 +295,16 @@ namespace GP.TransactionSearch
                     if (Err < 0)
                     {
                         MessageBox.Show("PM Transaction Search Menu Unregister, error code: " + Convert.ToString(Err), APPNAME);
+                    }
+                }
+
+                // Unregister menu entry
+                if (SOPTrxSearchMenuTag > 0)
+                {
+                    Err = MenusForVisualStudioTools.Functions.Unregister.Invoke(0, SOPTrxSearchMenuTag);
+                    if (Err < 0)
+                    {
+                        MessageBox.Show("SOP Transaction Search Menu Unregister, error code: " + Convert.ToString(Err), APPNAME);
                     }
                 }
 
@@ -286,32 +352,10 @@ namespace GP.TransactionSearch
             {
                 OpenRMSearch();
             }
-
-
-            //else if (Tag == MenuTag2)
-            //{
-            //    // Display Menu Caption
-            //    MenusForVisualStudioTools.Functions.GetCaption.Invoke(MenuTag2, out Caption);
-            //    MessageBox.Show(Caption, APPNAME);
-
-            //    // Disable second menu entry
-            //    MenusForVisualStudioTools.Functions.Disable.Invoke(MenuTag2, true);
-            //}
-            //else if (Tag == MenuTag3)
-            //{
-            //    // Display Menu Caption
-            //    MenusForVisualStudioTools.Functions.GetCaption.Invoke(MenuTag3, out Caption);
-            //    MessageBox.Show(Caption, APPNAME);
-
-            //    // Hide third menu entry
-            //    MenusForVisualStudioTools.Functions.Hide.Invoke(MenuTag3, true);
-            //}
-            //else if (Tag == MenuTag4)
-            //{
-            //    // Display Menu Caption
-            //    MenusForVisualStudioTools.Functions.GetCaption.Invoke(MenuTag4, out Caption);
-            //    MessageBox.Show(Caption, APPNAME);
-            //}
+            else if (Tag == SOPTrxSearchMenuTag)
+            {
+                OpenSOPSearch();
+            }
             else
             {
                 // Not one of this application's menu entries
@@ -379,6 +423,10 @@ namespace GP.TransactionSearch
             {
                 SetRMTransactionSearchFocus();
             }
+            else if (Controller.Instance.Model.SOPSearchFocus)
+            {
+                SetSOPTransactionSearchFocus();
+            }
         }
 
         private void SetRMTransactionSearchFocus()
@@ -391,6 +439,37 @@ namespace GP.TransactionSearch
         {
             Controller.Instance.Model.CustomerIDDefault = rmCustomerMaintWindow.CustomerNumber.Value.Trim();
             OpenRMSearch();
+        }
+
+        
+        private void OpenSOPTransactionSearch(object sender, EventArgs e)
+        {
+            OpenSOPSearch();
+        }
+
+        private void OpenSOPSearch()
+        {
+            if (rmSearch == null)
+            {
+                sopSearch = new SOPTransactionSearch();
+                sopSearch.FormClosed += delegate { sopSearch = null; };
+                sopSearch.Show();
+            }
+            Application.OpenForms[sopSearch.Name].Focus();
+        }
+
+        private void SetSOPSearchFocus(object sender, EventArgs e)
+        {
+            if (Controller.Instance.Model.SOPSearchFocus)
+            {
+                SetSOPTransactionSearchFocus();
+            }
+        }
+
+        private void SetSOPTransactionSearchFocus()
+        {
+            Application.OpenForms[sopSearch.Name].Focus();
+            Controller.Instance.Model.SOPSearchFocus = false;
         }
 
     }

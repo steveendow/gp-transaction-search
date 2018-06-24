@@ -525,15 +525,10 @@ namespace GP.TransactionSearch
 
             GetPMTransactions();
         }
-
-        private void dataGrid_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+                
+        private void dataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ViewTransaction();
-        }
-
-        private void status1_DoubleClick(object sender, EventArgs e)
-        {
-            Controller.Instance.LoadConfiguration();
         }
     }
 }

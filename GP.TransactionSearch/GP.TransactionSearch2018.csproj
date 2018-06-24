@@ -91,6 +91,13 @@
       <DependentUpon>RMTransactionSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="SearchFilter.cs" />
+    <Compile Include="SOPTransaction.cs" />
+    <Compile Include="SOPTransactionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SOPTransactionSearch.Designer.cs">
+      <DependentUpon>SOPTransactionSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransactionSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,6 +114,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RMTransactionSearch.resx">
       <DependentUpon>RMTransactionSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SOPTransactionSearch.resx">
+      <DependentUpon>SOPTransactionSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransactionSearch.resx">
       <DependentUpon>TransactionSearch.cs</DependentUpon>

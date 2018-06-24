@@ -1,6 +1,6 @@
 ﻿namespace GP.TransactionSearch
 {
-    partial class RMTransactionSearch
+    partial class SOPTransactionSearch
     {
         /// <summary>
         /// Required designer variable.
@@ -309,7 +309,7 @@
             this.label7.TabIndex = 18;
             this.label7.Text = "To:";
             // 
-            // RMTransactionSearch
+            // SOPTransactionSearch
             // 
             this.AcceptButton = this.btnRefresh;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -334,10 +334,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dateEnd);
             this.Controls.Add(this.dateStart);
-            this.Name = "RMTransactionSearch";
+            this.Name = "SOPTransactionSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "RM Transaction Search";
-            this.Load += new System.EventHandler(this.RMTransactionSearch_Load);
+            this.Text = "SOP Transaction Search";
+            this.Load += new System.EventHandler(this.SOPTransactionSearch_Load);
             this.statusPMTransaction.ResumeLayout(false);
             this.statusPMTransaction.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();

@@ -13,17 +13,17 @@ using System.Windows.Forms;
 
 namespace GP.TransactionSearch
 {
-    public partial class RMTransactionSearch : Form
+    public partial class SOPTransactionSearch : Form
     {
 
         SearchFilter searchFilter;
 
-        public RMTransactionSearch()
+        public SOPTransactionSearch()
         {
             InitializeComponent();
         }
 
-        private void RMTransactionSearch_Load(object sender, EventArgs e)
+        private void SOPTransactionSearch_Load(object sender, EventArgs e)
         {
             if (!Controller.Instance.Model.IsExternal)
             {
@@ -48,11 +48,12 @@ namespace GP.TransactionSearch
             if (!string.IsNullOrEmpty(Controller.Instance.Model.CustomerIDDefault))
             {
                 this.txtMasterID.Text = Controller.Instance.Model.CustomerIDDefault;
-                GetRMTransactions();
+                GetTransactions();
 
                 Controller.Instance.Model.CustomerIDDefault = string.Empty;
             }
         }
+
 
         private void dateStart_ValueChanged(object sender, EventArgs e)
         {
@@ -91,11 +92,11 @@ namespace GP.TransactionSearch
         
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            GetRMTransactions();
+            GetTransactions();
         }
 
 
-        private void GetRMSearchValues()
+        private void GetSearchValues()
         {
             searchFilter.StartDate = dateStart.Value;
             searchFilter.EndDate = dateEnd.Value;
@@ -125,7 +126,7 @@ namespace GP.TransactionSearch
 
         private void PrepDataGrid()
         {
-            DataTable dataTable = DataAccess.PMTransactionSearch(Convert.ToDateTime("1800-01-01"), Convert.ToDateTime("1800-01-01"), "", "", "", 0, 0);
+            DataTable dataTable = DataAccess.SOPTransactionSearch(Convert.ToDateTime("1800-01-01"), Convert.ToDateTime("1800-01-01"), "", "", "", 0, 0);
             this.dataGrid.DataSource = dataTable;
 
             foreach (DataGridViewColumn col in this.dataGrid.Columns)
@@ -146,22 +147,22 @@ namespace GP.TransactionSearch
                 }
             }
 
-            if (this.dataGrid.Columns["RMDTYPAL"] != null)
+            if (this.dataGrid.Columns["SOPTYPE"] != null)
             {
-                this.dataGrid.Columns["RMDTYPAL"].Visible = false;
+                this.dataGrid.Columns["SOPTYPE"].Visible = false;
             }
         }
 
 
-        private void GetRMTransactions()
+        private void GetTransactions()
         {
-            GetRMSearchValues();
+            GetSearchValues();
 
             Stopwatch sw1 = new Stopwatch();
             Stopwatch sw2 = new Stopwatch();
 
             sw1.Start();
-            DataTable dataTable = DataAccess.RMTransactionSearch(searchFilter.StartDate, searchFilter.EndDate, searchFilter.DocNumber, searchFilter.MasterID, searchFilter.MasterName, searchFilter.AmountFrom, searchFilter.AmountTo);
+            DataTable dataTable = DataAccess.SOPTransactionSearch(searchFilter.StartDate, searchFilter.EndDate, searchFilter.DocNumber, searchFilter.MasterID, searchFilter.MasterName, searchFilter.AmountFrom, searchFilter.AmountTo);
             sw1.Stop();
             long dataTime = sw1.ElapsedMilliseconds;
 
@@ -186,9 +187,9 @@ namespace GP.TransactionSearch
                 }
             }
 
-            if (this.dataGrid.Columns["RMDTYPAL"] != null)
+            if (this.dataGrid.Columns["SOPTYPE"] != null)
             {
-                this.dataGrid.Columns["RMDTYPAL"].Visible = false;
+                this.dataGrid.Columns["SOPTYPE"].Visible = false;
             }
 
             status1.Text = dataTable.Rows.Count.ToString() + " records";
@@ -202,7 +203,7 @@ namespace GP.TransactionSearch
         {
             if (Controller.Instance.Model.SearchAsYouType)
             {
-                GetRMTransactions();
+                GetTransactions();
             }
         }
 
@@ -210,7 +211,7 @@ namespace GP.TransactionSearch
         {
             if (Controller.Instance.Model.SearchAsYouType)
             {
-                GetRMTransactions();
+                GetTransactions();
             }
         }
 
@@ -218,7 +219,7 @@ namespace GP.TransactionSearch
         {
             if (Controller.Instance.Model.SearchAsYouType)
             {
-                GetRMTransactions();
+                GetTransactions();
             }
         }
 
@@ -292,14 +293,25 @@ namespace GP.TransactionSearch
                 if (dataGrid.Rows.Count > 0)
                 {
                     string docNumber = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["DocNum"].Value.ToString();
-                    int docType = Convert.ToInt32(dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["RMDTYPAL"].Value);
+                    short docType = Convert.ToInt16(dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["SOPTYPE"].Value);
                     string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["CustomerID"].Value.ToString();
+                    string origin = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["Origin"].Value.ToString();
+
+                    short status = 0;
+                    if (origin.ToUpper() == "WORK")
+                    {
+                        status = 1;
+                    }
+                    else  //HIST
+                    {
+                        status = 2;
+                    }
+
+                    SOPTransaction sopTrx = new SOPTransaction(status, docType, docNumber, masterID);
 
                     if (!string.IsNullOrEmpty(docNumber) && docType > 0 && !string.IsNullOrEmpty(masterID))
                     {
-                        RMTransaction rmTrx = Controller.Instance.GetRMTransaction(docNumber, docType, masterID);
-                        
-                        OpenRMDocumentInquiry(rmTrx);
+                        OpenSOPDocumentInquiry(sopTrx);
                     }
 
                 }
@@ -312,83 +324,24 @@ namespace GP.TransactionSearch
         }
 
 
-        private void OpenRMDocumentInquiry(RMTransaction rmTrx)
+        private void OpenSOPDocumentInquiry(SOPTransaction sopTrx)
         {
-            if (string.IsNullOrEmpty(rmTrx.CUSTNMBR) || string.IsNullOrEmpty(rmTrx.DOCNUMBR) || rmTrx.RMDTYPAL == 0)
+            if (string.IsNullOrEmpty(sopTrx.CustomerID) || string.IsNullOrEmpty(sopTrx.DocNum) || sopTrx.Status == 0 || sopTrx.DocType == 0)
             {
                 return;
             }
 
-            if (rmTrx.RMDTYPAL == 9)
-            {
-                OpenRMPaymentInquiry(rmTrx);
-            }
-            else
-            {
-                OpenRMTransactionInquiry(rmTrx);
-
-            }
-        }
-
-
-        private void OpenRMTransactionInquiry(RMTransaction rmTrx)
-        {
-            if (string.IsNullOrEmpty(rmTrx.CUSTNMBR) || string.IsNullOrEmpty(rmTrx.DOCNUMBR))
-            {
-                return;
-            }
-
-            if (rmTrx.RMDTYPAL < 1 || rmTrx.RMDTYPAL > 8)
-            {
-                return;
-            }
-            else
-            {
-                if (rmTrx.BCHSOURC.ToUpper().Contains("RM_SALES"))
-                {
-                    Controller.Instance.Model.RMSearchFocus = true;
-                    Dynamics.Forms.RmSalesInquiry.Procedures.OpenWindow.Invoke(rmTrx.RMDTYPAL, rmTrx.DOCNUMBR, rmTrx.DCSTATUS, 1, 8806);
-                }
-                else if (rmTrx.BCHSOURC.ToUpper().Contains("SALES ENTRY"))
-                {
-                    Controller.Instance.Model.RMSearchFocus = true;
-                    Dynamics.Forms.SopInquiry.Procedures.Open.Invoke(rmTrx.RMDTYPAL, rmTrx.DOCNUMBR, rmTrx.DCSTATUS, 9, 1, 8806);  //9 = RM
-                }
-            }
+            OpenSOPTransactionInquiry(sopTrx);
 
         }
 
 
-        private void OpenSOPInvoiceInquiry(RMTransaction rmTrx)
+        private void OpenSOPTransactionInquiry(SOPTransaction sopTrx)
         {
-            if (string.IsNullOrEmpty(rmTrx.CUSTNMBR) || string.IsNullOrEmpty(rmTrx.DOCNUMBR))
-            {
-                return;
-            }
-            
-
+            Controller.Instance.Model.SOPSearchFocus = true;
+            Dynamics.Forms.SopInquiry.Procedures.Open.Invoke(sopTrx.DocType, sopTrx.DocNum, sopTrx.Status, 11, 1, 10806);    //11 = SOP 
         }
-
-
-        private void OpenRMPaymentInquiry(RMTransaction rmTrx)
-        {
-            if (string.IsNullOrEmpty(rmTrx.CUSTNMBR) || string.IsNullOrEmpty(rmTrx.DOCNUMBR))
-            {
-                return;
-            }
-
-            if (rmTrx.RMDTYPAL != 9)
-            {
-                return;
-            }
-            else
-            {
-                Controller.Instance.Model.RMSearchFocus = true;
-                Dynamics.Forms.RmCashInquiry.Procedures.OpenWindow.Invoke(rmTrx.DOCNUMBR, rmTrx.DCSTATUS, 1, 8806);
-            }
-
-        }
-
+        
 
         private void dataGrid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -450,7 +403,7 @@ namespace GP.TransactionSearch
                 searchFilter.AmountFrom = 0m;
             }
 
-            GetRMTransactions();
+            GetTransactions();
         }
 
 
@@ -495,9 +448,9 @@ namespace GP.TransactionSearch
                 searchFilter.AmountTo = 999999999999.99m;
             }
 
-            GetRMTransactions();
+            GetTransactions();
         }
-        
+
         private void dataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ViewTransaction();

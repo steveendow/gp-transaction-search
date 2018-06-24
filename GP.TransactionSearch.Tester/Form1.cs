@@ -40,6 +40,15 @@ namespace GP.TransactionSearch.Tester
             RMTransactionSearch search = new RMTransactionSearch();
             search.Show();
         }
+
+        private void btnOpenSOPSearch_Click(object sender, EventArgs e)
+        {
+            Controller.Instance.Model.IsExternal = true;
+            Controller.Instance.SetConnectionInfo(txtServer.Text.Trim(), txtUser.Text.Trim(), txtPassword.Text.Trim(), txtSystemDB.Text.Trim(), txtCompanyDB.Text.Trim());
+
+            SOPTransactionSearch search = new SOPTransactionSearch();
+            search.Show();
+        }
     }
 
 }

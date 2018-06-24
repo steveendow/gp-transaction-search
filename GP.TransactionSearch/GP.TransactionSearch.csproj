@@ -39,6 +39,7 @@
     <Reference Include="Application.Dynamics, Version=16.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Application.Dynamics.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Application.MenusForVisualStudioTools">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Application.MenusForVisualStudioTools.dll</HintPath>
@@ -51,10 +52,12 @@
     <Reference Include="Microsoft.Dexterity.Bridge, Version=16.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Microsoft.Dexterity.Bridge.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Microsoft.Dexterity.Shell, Version=16.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Microsoft.Dexterity.Shell.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -74,6 +77,13 @@
     <Compile Include="Model.cs" />
     <Compile Include="PMTransaction.cs" />
     <Compile Include="RMTransaction.cs" />
+    <Compile Include="SOPTransaction.cs" />
+    <Compile Include="SOPTransactionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SOPTransactionSearch.Designer.cs">
+      <DependentUpon>SOPTransactionSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="RMTransactionSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +104,9 @@
     <Compile Include="TransactionSearch.Designer.cs">
       <DependentUpon>TransactionSearch.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SOPTransactionSearch.resx">
+      <DependentUpon>SOPTransactionSearch.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RMTransactionSearch.resx">
       <DependentUpon>RMTransactionSearch.cs</DependentUpon>
     </EmbeddedResource>
