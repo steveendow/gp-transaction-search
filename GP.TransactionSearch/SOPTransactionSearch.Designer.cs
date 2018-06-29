@@ -57,6 +57,8 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.txtAmountTo = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtItemNumber = new System.Windows.Forms.TextBox();
             this.statusPMTransaction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsPMTransaction)).BeginInit();
@@ -107,7 +109,7 @@
             // 
             // txtMasterID
             // 
-            this.txtMasterID.Location = new System.Drawing.Point(276, 8);
+            this.txtMasterID.Location = new System.Drawing.Point(267, 8);
             this.txtMasterID.Name = "txtMasterID";
             this.txtMasterID.Size = new System.Drawing.Size(97, 20);
             this.txtMasterID.TabIndex = 2;
@@ -116,7 +118,7 @@
             // lblMasterID
             // 
             this.lblMasterID.AutoSize = true;
-            this.lblMasterID.Location = new System.Drawing.Point(190, 12);
+            this.lblMasterID.Location = new System.Drawing.Point(186, 12);
             this.lblMasterID.Name = "lblMasterID";
             this.lblMasterID.Size = new System.Drawing.Size(68, 13);
             this.lblMasterID.TabIndex = 5;
@@ -125,7 +127,7 @@
             // lblMasterName
             // 
             this.lblMasterName.AutoSize = true;
-            this.lblMasterName.Location = new System.Drawing.Point(190, 38);
+            this.lblMasterName.Location = new System.Drawing.Point(186, 38);
             this.lblMasterName.Name = "lblMasterName";
             this.lblMasterName.Size = new System.Drawing.Size(62, 13);
             this.lblMasterName.TabIndex = 7;
@@ -133,7 +135,7 @@
             // 
             // txtMasterName
             // 
-            this.txtMasterName.Location = new System.Drawing.Point(276, 34);
+            this.txtMasterName.Location = new System.Drawing.Point(267, 34);
             this.txtMasterName.Name = "txtMasterName";
             this.txtMasterName.Size = new System.Drawing.Size(97, 20);
             this.txtMasterName.TabIndex = 3;
@@ -142,7 +144,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(379, 11);
+            this.label5.Location = new System.Drawing.Point(375, 11);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 13);
             this.label5.TabIndex = 9;
@@ -214,7 +216,7 @@
             this.dataGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGrid.ShowEditingIcon = false;
             this.dataGrid.Size = new System.Drawing.Size(1042, 350);
-            this.dataGrid.TabIndex = 10;
+            this.dataGrid.TabIndex = 11;
             this.dataGrid.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_CellDoubleClick);
             this.dataGrid.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGrid_CellMouseDown);
             this.dataGrid.MouseClick += new System.Windows.Forms.MouseEventHandler(this.dataGrid_MouseClick);
@@ -222,7 +224,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(379, 37);
+            this.label6.Location = new System.Drawing.Point(560, 11);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 13);
             this.label6.TabIndex = 14;
@@ -230,20 +232,20 @@
             // 
             // txtAmountFrom
             // 
-            this.txtAmountFrom.Location = new System.Drawing.Point(459, 33);
+            this.txtAmountFrom.Location = new System.Drawing.Point(640, 7);
             this.txtAmountFrom.Name = "txtAmountFrom";
             this.txtAmountFrom.ShortcutsEnabled = false;
             this.txtAmountFrom.Size = new System.Drawing.Size(89, 20);
-            this.txtAmountFrom.TabIndex = 5;
+            this.txtAmountFrom.TabIndex = 6;
             this.txtAmountFrom.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAmountFrom_KeyPress);
             this.txtAmountFrom.Leave += new System.EventHandler(this.txtAmountFrom_Leave);
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(691, 30);
+            this.btnRefresh.Location = new System.Drawing.Point(756, 32);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
-            this.btnRefresh.TabIndex = 7;
+            this.btnRefresh.TabIndex = 8;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
             this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
@@ -275,7 +277,7 @@
             this.btnCopy.Location = new System.Drawing.Point(874, 31);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(75, 23);
-            this.btnCopy.TabIndex = 8;
+            this.btnCopy.TabIndex = 9;
             this.btnCopy.Text = "Copy";
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
@@ -285,29 +287,47 @@
             this.btnCSV.Location = new System.Drawing.Point(955, 31);
             this.btnCSV.Name = "btnCSV";
             this.btnCSV.Size = new System.Drawing.Size(75, 23);
-            this.btnCSV.TabIndex = 9;
+            this.btnCSV.TabIndex = 10;
             this.btnCSV.Text = "CSV";
             this.btnCSV.UseVisualStyleBackColor = true;
             this.btnCSV.Click += new System.EventHandler(this.btnCSV_Click);
             // 
             // txtAmountTo
             // 
-            this.txtAmountTo.Location = new System.Drawing.Point(587, 33);
+            this.txtAmountTo.Location = new System.Drawing.Point(640, 34);
             this.txtAmountTo.Name = "txtAmountTo";
             this.txtAmountTo.ShortcutsEnabled = false;
             this.txtAmountTo.Size = new System.Drawing.Size(89, 20);
-            this.txtAmountTo.TabIndex = 6;
+            this.txtAmountTo.TabIndex = 7;
             this.txtAmountTo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtAmountTo_KeyPress);
             this.txtAmountTo.Leave += new System.EventHandler(this.txtAmountTo_Leave);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(557, 37);
+            this.label7.Location = new System.Drawing.Point(560, 37);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(23, 13);
+            this.label7.Size = new System.Drawing.Size(62, 13);
             this.label7.TabIndex = 18;
-            this.label7.Text = "To:";
+            this.label7.Text = "Amount To:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(375, 38);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(79, 13);
+            this.label3.TabIndex = 20;
+            this.label3.Text = "Item # / Name:";
+            // 
+            // txtItemNumber
+            // 
+            this.txtItemNumber.Location = new System.Drawing.Point(459, 34);
+            this.txtItemNumber.Name = "txtItemNumber";
+            this.txtItemNumber.Size = new System.Drawing.Size(89, 20);
+            this.txtItemNumber.TabIndex = 5;
+            this.txtItemNumber.TextChanged += new System.EventHandler(this.txtItemNumber_TextChanged);
+            this.txtItemNumber.Leave += new System.EventHandler(this.txtItemNumber_Leave);
             // 
             // SOPTransactionSearch
             // 
@@ -315,6 +335,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1042, 435);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.txtItemNumber);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.txtAmountTo);
             this.Controls.Add(this.btnCSV);
@@ -378,5 +400,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TextBox txtAmountTo;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox txtItemNumber;
     }
 }

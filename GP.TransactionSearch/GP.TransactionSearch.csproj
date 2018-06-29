@@ -77,6 +77,7 @@
     <Compile Include="Model.cs" />
     <Compile Include="PMTransaction.cs" />
     <Compile Include="RMTransaction.cs" />
+    <Compile Include="SOPSearchFilter.cs" />
     <Compile Include="SOPTransaction.cs" />
     <Compile Include="SOPTransactionSearch.cs">
       <SubType>Form</SubType>
@@ -220,8 +221,9 @@
     <Content Include="GPSQLConnection\GPSQLConnection2015.dll" />
     <Content Include="GPSQLConnection\GPSQLConnection2016.dll" />
     <Content Include="GPSQLConnection\GPSQLConnection2018.dll" />
-    <Content Include="SQL\csspPMTransactionSearch v1.0.sql" />
     <Content Include="SQL\csspPMTransactionSearch v1.1.sql" />
+    <Content Include="SQL\csspRMTransactionSearch v1.0.sql" />
+    <Content Include="SQL\csspSOPTransactionSearch v1.0.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

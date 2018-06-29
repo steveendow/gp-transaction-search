@@ -2,7 +2,6 @@ IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'csspPMTransact
 DROP PROCEDURE csspPMTransactionSearch
 GO
 
-
 CREATE PROCEDURE csspPMTransactionSearch
 
 @StartDate AS DATETIME, 
@@ -43,7 +42,7 @@ EXEC dbo.csspPMTransactionSearch @StartDate = '2017-01-01',
 --If you have a large number of transaction history, adjust TOP count as needed for performance
 SELECT TOP 200 	
 	P.Origin, 
-	RTRIM(P.DOCNUMBR) DocNum,
+	RTRIM(P.DOCNUMBR) DocNum,  
 	CASE P.DOCTYPE
 	    WHEN 1 THEN 'INV'
 	    WHEN 2 THEN 'FIN CHG'
@@ -54,10 +53,10 @@ SELECT TOP 200
      END DocType,
 	P.DOCDATE DocDate,
 	P.PSTGDATE PostDate,
-	RTRIM(P.VENDORID) VendorID,
+	RTRIM(P.VENDORID) VendorID,  --This field value must be named VendorID for drill down, DO NOT REMOVE
 	RTRIM(V.VENDNAME) Name,
 	CAST(P.DOCAMNT AS NUMERIC(19,2)) Amount, --Cast to specify visible decimals
-	RTRIM(P.VCHRNMBR) TrxNumber,
+	RTRIM(P.VCHRNMBR) TrxNumber,  --This field value must be named TrxNumber for drill down, DO NOT REMOVE
 	P.DUEDATE DueDate,
 	CAST(P.CURTRXAM AS NUMERIC(19,2)) Unapplied, --Cast to specify visible decimals
 	RTRIM(P.TRXDSCRN) [Description],

@@ -44,21 +44,17 @@
  * -Fix incorrect GPConnNet reference in GPSQLConnection2018.dll and update references for all versions of GP Transaction Search
  * -Set ReplacePMInquiryVendor setting to False as default
  * 
- * -v1.0.0.5 - June 7, 2018 - Unreleased
- * -When opening the PM Transaction Search window from Vendor Maintenance, default the vendor ID on the search window
- *  and pre-populate grid with vendor data.
- * -Fix tab order of search filter fields on PMTransactionSearch window
- * 
  * -v2.0.0.0 - June 18, 2018
  * -Create v2 branch
  * -Add support for custom GP menus using VST Menus from Winthrop Visual Studio Integration Toolkit
  * -Remove code to replace PM Inquiry windows
+ * -Add RM Transaction Search
+ * -Add SOP Transaction Search
+ * -When opening the PM Transaction Search window from Vendor Maintenance, default the vendor ID on the search window
+ *  and pre-populate grid with vendor data.
+ * -Fix tab order of search filter fields on PMTransactionSearch window
  * 
  */
 
-
-// TODO: Add optional config file settings to override PM Transaction Search window labels, allowing replacement of Vendor -> Creditor
-
-// TODO: Research GP protocol handler for drill down to POP and SOP transaction inquiry windows http://timwappat.info/post/2015/08/20/Asynchronous-pluggable-Protocol-Handler-for-Dynamics-GP-(or-drilldowndrllback)
 
 // WISHLIST: Add support for POP Invoice Zoom window (Requires Dex assistance)

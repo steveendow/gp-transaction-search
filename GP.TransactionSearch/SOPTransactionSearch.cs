@@ -16,7 +16,7 @@ namespace GP.TransactionSearch
     public partial class SOPTransactionSearch : Form
     {
 
-        SearchFilter searchFilter;
+        SOPSearchFilter searchFilter;
 
         public SOPTransactionSearch()
         {
@@ -34,7 +34,7 @@ namespace GP.TransactionSearch
                 Controller.Instance.LoadConfiguration();
             }
 
-            searchFilter = new SearchFilter();
+            searchFilter = new SOPSearchFilter();
 
             if (!string.IsNullOrEmpty(Controller.Instance.Model.AssemblyVersion))
             {
@@ -98,6 +98,7 @@ namespace GP.TransactionSearch
 
         private void GetSearchValues()
         {
+
             searchFilter.StartDate = dateStart.Value;
             searchFilter.EndDate = dateEnd.Value;
             searchFilter.MasterID = txtMasterID.Text.Trim();
@@ -121,12 +122,15 @@ namespace GP.TransactionSearch
                 searchFilter.AmountTo = 999999999999.99m;
             }
 
+            searchFilter.ItemNumber = txtItemNumber.Text.Trim();
+            searchFilter.ItemDescription = txtItemNumber.Text.Trim();
+
         }
 
 
         private void PrepDataGrid()
         {
-            DataTable dataTable = DataAccess.SOPTransactionSearch(Convert.ToDateTime("1800-01-01"), Convert.ToDateTime("1800-01-01"), "", "", "", 0, 0);
+            DataTable dataTable = DataAccess.SOPTransactionSearch(Convert.ToDateTime("1800-01-01"), Convert.ToDateTime("1800-01-01"), "", "", "", 0, 0, "", "");
             this.dataGrid.DataSource = dataTable;
 
             foreach (DataGridViewColumn col in this.dataGrid.Columns)
@@ -162,7 +166,7 @@ namespace GP.TransactionSearch
             Stopwatch sw2 = new Stopwatch();
 
             sw1.Start();
-            DataTable dataTable = DataAccess.SOPTransactionSearch(searchFilter.StartDate, searchFilter.EndDate, searchFilter.DocNumber, searchFilter.MasterID, searchFilter.MasterName, searchFilter.AmountFrom, searchFilter.AmountTo);
+            DataTable dataTable = DataAccess.SOPTransactionSearch(searchFilter.StartDate, searchFilter.EndDate, searchFilter.DocNumber, searchFilter.MasterID, searchFilter.MasterName, searchFilter.AmountFrom, searchFilter.AmountTo, searchFilter.ItemNumber, searchFilter.ItemDescription);
             sw1.Stop();
             long dataTime = sw1.ElapsedMilliseconds;
 
@@ -454,6 +458,21 @@ namespace GP.TransactionSearch
         private void dataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ViewTransaction();
+        }
+
+        private void txtItemNumber_TextChanged(object sender, EventArgs e)
+        {
+            //if (Controller.Instance.Model.SearchAsYouType)
+            //{
+            //    GetTransactions();
+            //}
+        }
+
+        private void txtItemNumber_Leave(object sender, EventArgs e)
+        {
+            searchFilter.ItemNumber = this.txtItemNumber.Text.Trim();
+            searchFilter.ItemDescription = this.txtItemNumber.Text.Trim();
+            GetTransactions();
         }
     }
 }

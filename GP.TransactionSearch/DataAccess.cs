@@ -318,14 +318,14 @@ namespace GP.TransactionSearch
         }
 
 
-        internal static DataTable SOPTransactionSearch(DateTime startDate, DateTime endDate, string docNumber, string customerID, string customerName, decimal amountFrom, decimal amountTo)
+        internal static DataTable SOPTransactionSearch(DateTime startDate, DateTime endDate, string docNumber, string customerID, string customerName, decimal amountFrom, decimal amountTo, string itemNumber, string itemDescription)
         {
             try
             {
 
                 string commandText = "csspSOPTransactionSearch";
 
-                SqlParameter[] sqlParameters = new SqlParameter[7];
+                SqlParameter[] sqlParameters = new SqlParameter[9];
                 sqlParameters[0] = new SqlParameter("@StartDate", System.Data.SqlDbType.DateTime);
                 sqlParameters[0].Value = startDate;
                 sqlParameters[1] = new SqlParameter("@EndDate", System.Data.SqlDbType.DateTime);
@@ -340,6 +340,10 @@ namespace GP.TransactionSearch
                 sqlParameters[5].Value = amountFrom;
                 sqlParameters[6] = new SqlParameter("@AmountTo", System.Data.SqlDbType.Decimal);
                 sqlParameters[6].Value = amountTo;
+                sqlParameters[7] = new SqlParameter("@ItemNumber", System.Data.SqlDbType.VarChar, 15);
+                sqlParameters[7].Value = itemNumber;
+                sqlParameters[8] = new SqlParameter("@ItemDescr", System.Data.SqlDbType.VarChar, 65);
+                sqlParameters[8].Value = itemDescription;
 
                 DataTable dataTable = new DataTable();
 

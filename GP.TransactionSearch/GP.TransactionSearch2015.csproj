@@ -91,6 +91,7 @@
       <DependentUpon>RMTransactionSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="SearchFilter.cs" />
+    <Compile Include="SOPSearchFilter.cs" />
     <Compile Include="SOPTransaction.cs" />
     <Compile Include="SOPTransactionSearch.cs">
       <SubType>Form</SubType>
