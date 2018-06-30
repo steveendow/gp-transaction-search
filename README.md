@@ -1,3 +1,6 @@
+Updated 6/30/2018 - v2.0.0.0
+
+
 # Microsoft Dynamics GP Transaction Search
 GP Transaction Search is a Visual Studio Tools AddIn for Microsoft Dynamics GP
 
@@ -21,7 +24,10 @@ Supported Dynamics GP Versions:  2013, 2015, 2016, 2018
 
 GPSQLConnection.dll (simple wrapper for GPConnNet developed by Steve Endow to avoid including GPConnNet license keys in open source code)
 
-Dynamics GP 2013 - 2018
+NEW in v2.0: Visual Studio Integration Toolkit by Wintrhop Dexterity Consultants: https://www.winthropdc.com/products_VSIT.htm
+--Free, but requires basic registration after install
+
+Dynamics GP 2013 - 2018 client application
 
 
 ## Project Questions
@@ -31,3 +37,5 @@ Contact Steve Endow via the [Precipio Services web site - Contact Us Page](https
 ## Contributing
 We'll need to figure that out. But here's the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#VisualStudio/opensource@github.com) for the project.
 
+## Need
+I need help from an experienced Dex developer to figure out how to open the POP Invoice Zoom window for drill down to Purchase Orders. Visual Studio Tools is unable to open the POP Zoom window directly, and that window does not have an OpenWindow.Invoke method exposed by the VST SDK.  The only remaining option I am aware of is Continuum, but I will need help creating the SanScript to try and open the window.
