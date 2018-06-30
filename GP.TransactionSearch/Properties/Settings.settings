@@ -6,7 +6,10 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="PMVendorLabel" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Debtor</Value>
+      <Value Profile="(Default)">Vendor</Value>
+    </Setting>
+    <Setting Name="RMCustomerLabel" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Customer</Value>
     </Setting>
   </Settings>
 </SettingsFile>

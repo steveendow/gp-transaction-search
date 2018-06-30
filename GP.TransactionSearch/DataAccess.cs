@@ -272,7 +272,7 @@ namespace GP.TransactionSearch
 
             catch (Exception ex)
             {
-                MessageBox.Show("An unexpected error occurred in PMTransactionSearch: " + ex.Message);
+                MessageBox.Show("An unexpected error occurred in DataAccess.PMTransactionSearch: " + ex.Message);
                 return null;
             }
         }
@@ -312,7 +312,7 @@ namespace GP.TransactionSearch
 
             catch (Exception ex)
             {
-                MessageBox.Show("An unexpected error occurred in RMTransactionSearch: " + ex.Message);
+                MessageBox.Show("An unexpected error occurred in DataAccess.RMTransactionSearch: " + ex.Message);
                 return null;
             }
         }
@@ -356,7 +356,7 @@ namespace GP.TransactionSearch
 
             catch (Exception ex)
             {
-                MessageBox.Show("An unexpected error occurred in SOPTransactionSearch: " + ex.Message);
+                MessageBox.Show("An unexpected error occurred in DataAccess.SOPTransactionSearch: " + ex.Message);
                 return null;
             }
         }

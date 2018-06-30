@@ -29,6 +29,7 @@ namespace GP.TransactionSearch
 
         public bool RMSearchFocus { get; set; }
         public string CustomerIDDefault { get; internal set; }
+        public string RMCustomerLabel { get; set; }
 
         public bool SOPSearchFocus { get; set; }
 

@@ -45,7 +45,7 @@
             this.status3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.status4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.dataGrid = new System.Windows.Forms.DataGridView();
-            this.bsPMTransaction = new System.Windows.Forms.BindingSource(this.components);
+            this.bsRMTransaction = new System.Windows.Forms.BindingSource(this.components);
             this.label6 = new System.Windows.Forms.Label();
             this.txtAmountFrom = new System.Windows.Forms.TextBox();
             this.btnRefresh = new System.Windows.Forms.Button();
@@ -59,7 +59,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.statusPMTransaction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsPMTransaction)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsRMTransaction)).BeginInit();
             this.cmsRMTransaction.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -107,7 +107,7 @@
             // 
             // txtMasterID
             // 
-            this.txtMasterID.Location = new System.Drawing.Point(276, 8);
+            this.txtMasterID.Location = new System.Drawing.Point(285, 8);
             this.txtMasterID.Name = "txtMasterID";
             this.txtMasterID.Size = new System.Drawing.Size(97, 20);
             this.txtMasterID.TabIndex = 2;
@@ -127,13 +127,13 @@
             this.lblMasterName.AutoSize = true;
             this.lblMasterName.Location = new System.Drawing.Point(190, 38);
             this.lblMasterName.Name = "lblMasterName";
-            this.lblMasterName.Size = new System.Drawing.Size(62, 13);
+            this.lblMasterName.Size = new System.Drawing.Size(85, 13);
             this.lblMasterName.TabIndex = 7;
-            this.lblMasterName.Text = "Cust Name:";
+            this.lblMasterName.Text = "Customer Name:";
             // 
             // txtMasterName
             // 
-            this.txtMasterName.Location = new System.Drawing.Point(276, 34);
+            this.txtMasterName.Location = new System.Drawing.Point(285, 34);
             this.txtMasterName.Name = "txtMasterName";
             this.txtMasterName.Size = new System.Drawing.Size(97, 20);
             this.txtMasterName.TabIndex = 3;
@@ -142,7 +142,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(379, 11);
+            this.label5.Location = new System.Drawing.Point(405, 11);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 13);
             this.label5.TabIndex = 9;
@@ -150,7 +150,7 @@
             // 
             // txtDocNumber
             // 
-            this.txtDocNumber.Location = new System.Drawing.Point(459, 7);
+            this.txtDocNumber.Location = new System.Drawing.Point(488, 7);
             this.txtDocNumber.Name = "txtDocNumber";
             this.txtDocNumber.Size = new System.Drawing.Size(89, 20);
             this.txtDocNumber.TabIndex = 4;
@@ -222,7 +222,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(379, 37);
+            this.label6.Location = new System.Drawing.Point(405, 37);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(72, 13);
             this.label6.TabIndex = 14;
@@ -230,7 +230,7 @@
             // 
             // txtAmountFrom
             // 
-            this.txtAmountFrom.Location = new System.Drawing.Point(459, 33);
+            this.txtAmountFrom.Location = new System.Drawing.Point(488, 33);
             this.txtAmountFrom.Name = "txtAmountFrom";
             this.txtAmountFrom.ShortcutsEnabled = false;
             this.txtAmountFrom.Size = new System.Drawing.Size(89, 20);
@@ -240,7 +240,7 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(691, 30);
+            this.btnRefresh.Location = new System.Drawing.Point(729, 30);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(75, 23);
             this.btnRefresh.TabIndex = 7;
@@ -292,7 +292,7 @@
             // 
             // txtAmountTo
             // 
-            this.txtAmountTo.Location = new System.Drawing.Point(587, 33);
+            this.txtAmountTo.Location = new System.Drawing.Point(615, 33);
             this.txtAmountTo.Name = "txtAmountTo";
             this.txtAmountTo.ShortcutsEnabled = false;
             this.txtAmountTo.Size = new System.Drawing.Size(89, 20);
@@ -303,7 +303,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(557, 37);
+            this.label7.Location = new System.Drawing.Point(585, 37);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(23, 13);
             this.label7.TabIndex = 18;
@@ -341,7 +341,7 @@
             this.statusPMTransaction.ResumeLayout(false);
             this.statusPMTransaction.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bsPMTransaction)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.bsRMTransaction)).EndInit();
             this.cmsRMTransaction.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -362,7 +362,7 @@
         private System.Windows.Forms.TextBox txtDocNumber;
         private System.Windows.Forms.StatusStrip statusPMTransaction;
         private System.Windows.Forms.ToolStripStatusLabel status1;
-        private System.Windows.Forms.BindingSource bsPMTransaction;
+        private System.Windows.Forms.BindingSource bsRMTransaction;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtAmountFrom;
         private System.Windows.Forms.Button btnRefresh;

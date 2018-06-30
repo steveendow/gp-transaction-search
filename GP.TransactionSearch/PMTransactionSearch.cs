@@ -40,6 +40,7 @@ namespace GP.TransactionSearch
             {
                 this.lblVendorID.Text = Controller.Instance.Model.PMVendorLabel + " ID:";
                 this.lblVendorName.Text = Controller.Instance.Model.PMVendorLabel + " Name:";
+                this.tsmViewMaster.Text = "View " + Controller.Instance.Model.PMVendorLabel;
             }
 
             this.dateStart.Value = DateTime.Today.AddYears(-1);
@@ -240,15 +241,15 @@ namespace GP.TransactionSearch
             //If View Vendor was clicked
             try
             {
-                //5/31/2018: S. Endow: This type of lookup requires a known / fixed column name, which in turn requires a 
-                //fixed field name from the stored proc. I don't know that there is a way to avoid this, and don't think 
-                //an Ordinal reference is viable
+                string fieldName = Controller.Instance.Model.PMVendorLabel + "ID";
+
                 if (dataGrid.Rows.Count > 0)
                 {
-                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["VendorID"].Value.ToString();
+                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells[fieldName].Value.ToString();
 
                     if (!string.IsNullOrEmpty(masterID))
                     {
+                        Controller.Instance.Model.PMSearchFocus = true;
                         OpenPMVendorInquiry(masterID);
                     }
 
@@ -265,8 +266,6 @@ namespace GP.TransactionSearch
 
         private void OpenPMVendorInquiry(string vendorID)
         {
-            Controller.Instance.Model.PMSearchFocus = true;
-
             PmVendorInquiryForm pmVendorInquiryForm = Dynamics.Forms.PmVendorInquiry;
             PmVendorInquiryForm.PmVendorInquiryWindow pmVendorInquiryWindow;
 
@@ -289,14 +288,11 @@ namespace GP.TransactionSearch
             //If View Transaction was clicked or row was double clicked
             try
             {
-                //5/31/2018: S. Endow: This type of lookup requires a few known / fixed column names, which in turn requires
-                //some fixed field names from the stored proc. I don't know that there is a way to avoid this, and don't think 
-                //an Ordinal reference is viable. Open to alternatives.
-
                 if (dataGrid.Rows.Count > 0)
                 {
+                    string fieldName = Controller.Instance.Model.PMVendorLabel + "ID";
                     string trxNumber = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["TrxNumber"].Value.ToString();
-                    string vendorID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["VendorID"].Value.ToString();
+                    string vendorID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells[fieldName].Value.ToString();
 
                     if (!string.IsNullOrEmpty(trxNumber) && !string.IsNullOrEmpty(vendorID))
                     {

@@ -34,6 +34,13 @@ namespace GP.TransactionSearch
                 Controller.Instance.LoadConfiguration();
             }
 
+            if (!string.IsNullOrEmpty(Controller.Instance.Model.RMCustomerLabel))
+            {
+                this.lblMasterID.Text = Controller.Instance.Model.RMCustomerLabel + " ID:";
+                this.lblMasterName.Text = Controller.Instance.Model.RMCustomerLabel + " Name:";
+                this.tsmViewMaster.Text = "View " + Controller.Instance.Model.RMCustomerLabel;
+            }
+
             searchFilter = new SOPSearchFilter();
 
             if (!string.IsNullOrEmpty(Controller.Instance.Model.AssemblyVersion))
@@ -251,10 +258,13 @@ namespace GP.TransactionSearch
             {
                 if (dataGrid.Rows.Count > 0)
                 {
-                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["CustomerID"].Value.ToString();
+                    string fieldName = Controller.Instance.Model.RMCustomerLabel + "ID";
+
+                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells[fieldName].Value.ToString();
 
                     if (!string.IsNullOrEmpty(masterID))
                     {
+                        Controller.Instance.Model.SOPSearchFocus = true;
                         OpenRMCustomerInquiry(masterID);
                     }
 
@@ -271,8 +281,6 @@ namespace GP.TransactionSearch
 
         private void OpenRMCustomerInquiry(string customerID)
         {
-            Controller.Instance.Model.RMSearchFocus = true;
-
             RmCustomerInquiryForm rmCustomerInquiryForm = Dynamics.Forms.RmCustomerInquiry;
             RmCustomerInquiryForm.RmCustomerInquiryWindow rmCustomerInquiryWindow;
 
@@ -296,9 +304,11 @@ namespace GP.TransactionSearch
             {
                 if (dataGrid.Rows.Count > 0)
                 {
+                    string fieldName = Controller.Instance.Model.RMCustomerLabel + "ID";
+
                     string docNumber = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["DocNum"].Value.ToString();
                     short docType = Convert.ToInt16(dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["SOPTYPE"].Value);
-                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["CustomerID"].Value.ToString();
+                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells[fieldName].Value.ToString();
                     string origin = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["Origin"].Value.ToString();
 
                     short status = 0;

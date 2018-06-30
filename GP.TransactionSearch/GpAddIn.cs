@@ -61,6 +61,7 @@ namespace GP.TransactionSearch
         public static PmVendorMaintenanceForm.PmVendorMaintenanceWindow pmVendorMaintWindow = pmVendorMaintForm.PmVendorMaintenance;
 
 
+        public static RmCustomerInquiryForm rmCustomerInquiryForm = Dynamics.Forms.RmCustomerInquiry;
         public static RmTransactionInquiryForm rmTrxInquiryForm = Dynamics.Forms.RmTransactionInquiry;
         public static RmTransactionInquiryDocumentForm rmTrxInquiryDocForm = Dynamics.Forms.RmTransactionInquiryDocument;
         public static RmCustomerMaintenanceForm rmCustomerMaintForm = Dynamics.Forms.RmCustomerMaintenance;
@@ -105,7 +106,7 @@ namespace GP.TransactionSearch
             pmVendorInquiryForm.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
 
             //Return focus to RM Search window after the drill down / zoom window is closed
-            rmCustomerMaintForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
+            rmCustomerInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
             rmTrxInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
             rmTrxInquiryDocForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
             rmSalesInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
@@ -449,7 +450,7 @@ namespace GP.TransactionSearch
 
         private void OpenSOPSearch()
         {
-            if (rmSearch == null)
+            if (sopSearch == null)
             {
                 sopSearch = new SOPTransactionSearch();
                 sopSearch.FormClosed += delegate { sopSearch = null; };

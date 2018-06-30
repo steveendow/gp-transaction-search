@@ -25,6 +25,12 @@ namespace GP.TransactionSearch.Tester
 
         private void btnOpenSearch_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtPassword.Text))
+            {
+                MessageBox.Show("Enter a password", "Enter a Password", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
             Controller.Instance.Model.IsExternal = true;
             Controller.Instance.SetConnectionInfo(txtServer.Text.Trim(), txtUser.Text.Trim(), txtPassword.Text.Trim(), txtSystemDB.Text.Trim(), txtCompanyDB.Text.Trim());
 
@@ -34,6 +40,12 @@ namespace GP.TransactionSearch.Tester
 
         private void btnOpenRMSearch_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtPassword.Text))
+            {
+                MessageBox.Show("Enter a password", "Enter a Password", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
             Controller.Instance.Model.IsExternal = true;
             Controller.Instance.SetConnectionInfo(txtServer.Text.Trim(), txtUser.Text.Trim(), txtPassword.Text.Trim(), txtSystemDB.Text.Trim(), txtCompanyDB.Text.Trim());
 
@@ -43,6 +55,12 @@ namespace GP.TransactionSearch.Tester
 
         private void btnOpenSOPSearch_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrEmpty(txtPassword.Text))
+            {
+                MessageBox.Show("Enter a password", "Enter a Password", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                return;
+            }
+
             Controller.Instance.Model.IsExternal = true;
             Controller.Instance.SetConnectionInfo(txtServer.Text.Trim(), txtUser.Text.Trim(), txtPassword.Text.Trim(), txtSystemDB.Text.Trim(), txtCompanyDB.Text.Trim());
 

@@ -141,6 +141,15 @@ namespace GP.TransactionSearch
                     Controller.instance.Model.PMVendorLabel = string.Empty;
                 }
 
+                if (configSection.Settings.Get("RMCustomerLabel") != null && configSection.Settings.Get("RMCustomerLabel").Value != null && (!string.IsNullOrEmpty(configSection.Settings.Get("RMCustomerLabel").Value.ValueXml.InnerText)))
+                {
+                    Controller.instance.Model.RMCustomerLabel = configSection.Settings.Get("RMCustomerLabel").Value.ValueXml.InnerText.Trim();
+                }
+                else
+                {
+                    Controller.instance.Model.PMVendorLabel = string.Empty;
+                }
+
                 return true;
 
             }

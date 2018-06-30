@@ -34,6 +34,13 @@ namespace GP.TransactionSearch
                 Controller.Instance.LoadConfiguration();
             }
 
+            if (!string.IsNullOrEmpty(Controller.Instance.Model.RMCustomerLabel))
+            {
+                this.lblMasterID.Text = Controller.Instance.Model.RMCustomerLabel + " ID:";
+                this.lblMasterName.Text = Controller.Instance.Model.RMCustomerLabel + " Name:";
+                this.tsmViewMaster.Text = "View " + Controller.Instance.Model.RMCustomerLabel;
+            }
+
             searchFilter = new SearchFilter();
 
             if (!string.IsNullOrEmpty(Controller.Instance.Model.AssemblyVersion))
@@ -125,7 +132,7 @@ namespace GP.TransactionSearch
 
         private void PrepDataGrid()
         {
-            DataTable dataTable = DataAccess.PMTransactionSearch(Convert.ToDateTime("1800-01-01"), Convert.ToDateTime("1800-01-01"), "", "", "", 0, 0);
+            DataTable dataTable = DataAccess.RMTransactionSearch(Convert.ToDateTime("1800-01-01"), Convert.ToDateTime("1800-01-01"), "", "", "", 0, 0);
             this.dataGrid.DataSource = dataTable;
 
             foreach (DataGridViewColumn col in this.dataGrid.Columns)
@@ -244,12 +251,15 @@ namespace GP.TransactionSearch
             //If View Master was clicked
             try
             {
+                string fieldName = Controller.Instance.Model.RMCustomerLabel + "ID";
+
                 if (dataGrid.Rows.Count > 0)
                 {
-                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["CustomerID"].Value.ToString();
+                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells[fieldName].Value.ToString();
 
                     if (!string.IsNullOrEmpty(masterID))
                     {
+                        Controller.Instance.Model.RMSearchFocus = true;
                         OpenRMCustomerInquiry(masterID);
                     }
 
@@ -266,8 +276,6 @@ namespace GP.TransactionSearch
 
         private void OpenRMCustomerInquiry(string customerID)
         {
-            Controller.Instance.Model.RMSearchFocus = true;
-
             RmCustomerInquiryForm rmCustomerInquiryForm = Dynamics.Forms.RmCustomerInquiry;
             RmCustomerInquiryForm.RmCustomerInquiryWindow rmCustomerInquiryWindow;
 
@@ -291,9 +299,11 @@ namespace GP.TransactionSearch
             {
                 if (dataGrid.Rows.Count > 0)
                 {
+                    string fieldName = Controller.Instance.Model.RMCustomerLabel + "ID";
                     string docNumber = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["DocNum"].Value.ToString();
+
                     int docType = Convert.ToInt32(dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["RMDTYPAL"].Value);
-                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["CustomerID"].Value.ToString();
+                    string masterID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells[fieldName].Value.ToString();
 
                     if (!string.IsNullOrEmpty(docNumber) && docType > 0 && !string.IsNullOrEmpty(masterID))
                     {
