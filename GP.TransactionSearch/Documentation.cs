@@ -53,7 +53,15 @@
  * -When opening the PM Transaction Search window from Vendor Maintenance, default the vendor ID on the search window
  *  and pre-populate grid with vendor data.
  * -Fix tab order of search filter fields on PMTransactionSearch window
- *  
+ * 
+ * Fix issues identified by Ian Grieve:
+ * -Reset default PMVendorLabel to "Vendor"
+ * -Add RMCustomerLabel setting and incorporate in to RM and SOP search windows
+ * -Update stored procedures with note about changing VendorID field to CreditorID and CustomerID to DebtorID
+ * -Fix RM and SOP search focus after closing customer inquiry window from drilldown
+ * -Fix to prevent multiple SOP windows from opening
+ * -Fix to allow both RM and SOP windows to be open together
+ * 
  */
 
 
