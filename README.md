@@ -19,7 +19,7 @@ You will need VS 2017 Version 15.5.7 or higher to login to Git - [See Bug Report
 Supported Dynamics GP Versions:  2013, 2015, 2016, 2018
 
 
-## How You Can Help!
+# How You Can Help!
 
 We currently need assistance with the following items:
 
@@ -34,10 +34,10 @@ We currently need assistance with the following items:
 ## Project Dependencies
 .NET 4.5.2
 
-GPSQLConnection.dll (simple wrapper for GPConnNet developed by Steve Endow to avoid including GPConnNet license keys in open source code)
+GPSQLConnection.dll - Included with the project files and compiled releases. This is a simple wrapper for GPConnNet developed by Steve Endow to avoid including GPConnNet license keys in open source code
 
 NEW in v2.0: Visual Studio Integration Toolkit by Wintrhop Dexterity Consultants: https://www.winthropdc.com/products_VSIT.htm
---Free, but requires basic registration after install
+ This is free, but requires basic registration after install
 
 Dynamics GP 2013 - 2018 client application
 
