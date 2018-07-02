@@ -19,6 +19,13 @@ You will need VS 2017 Version 15.5.7 or higher to login to Git - [See Bug Report
 Supported Dynamics GP Versions:  2013, 2015, 2016, 2018
 
 
+## How You Can Help!
+
+We currently need assistance with the following items:
+
+1. We need help from an experienced Dex developer to figure out how to open the POP Invoice Zoom window for drill down to Purchase Orders. Visual Studio Tools is unable to open the POP Invoice Zoom window directly, and that window does not have an OpenWindow.Invoke method exposed by the VST SDK.  The only remaining option I am aware of is Continuum, but I will need help creating the SanScript to try and open the window. If you know Dex and Continuum and are able to write some San Script for us, I can provide the Dex Script log showing the OpenWindow procedure we need to call.
+
+
 ## Project Dependencies
 .NET 4.5.2
 
@@ -37,5 +44,3 @@ Contact Steve Endow via the [Precipio Services web site - Contact Us Page](https
 ## Contributing
 We'll need to figure that out. But here's the [Open Code of Conduct](http://todogroup.org/opencodeofconduct/#VisualStudio/opensource@github.com) for the project.
 
-## Need
-I need help from an experienced Dex developer to figure out how to open the POP Invoice Zoom window for drill down to Purchase Orders. Visual Studio Tools is unable to open the POP Zoom window directly, and that window does not have an OpenWindow.Invoke method exposed by the VST SDK.  The only remaining option I am aware of is Continuum, but I will need help creating the SanScript to try and open the window.
