@@ -23,7 +23,12 @@ Supported Dynamics GP Versions:  2013, 2015, 2016, 2018
 
 We currently need assistance with the following items:
 
-1. We need help from an experienced Dex developer to figure out how to open the POP Invoice Zoom window for drill down to Purchase Orders. Visual Studio Tools is unable to open the POP Invoice Zoom window directly, and that window does not have an OpenWindow.Invoke method exposed by the VST SDK.  The only remaining option I am aware of is Continuum, but I will need help creating the SanScript to try and open the window. If you know Dex and Continuum and are able to write some San Script for us, I can provide the Dex Script log showing the OpenWindow procedure we need to call.
+1. We need help from an experienced Dex developer to figure out how to open the POP Inquiry Invoice Entry window for drill down to Purchase Orders. Visual Studio Tools is unable to open the POP Inquiry Invoice Entry window directly, and that window does not have an OpenWindow.Invoke method exposed by the VST SDK.  The only remaining option I am aware of is Continuum, but I will need help creating the SanScript to try and open the window. If you know Dex and Continuum and are able to write some San Script for us, this is the call that I believe I need to make via Continuum:
+
+
+        OpenWindow() of form POP_Inquiry_Invoice_Entry', 0, "RCT1107", 2, 3, 1
+
+
 
 
 ## Project Dependencies
