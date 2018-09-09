@@ -107,6 +107,7 @@
             // 
             // txtMasterID
             // 
+            this.txtMasterID.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtMasterID.Location = new System.Drawing.Point(285, 8);
             this.txtMasterID.Name = "txtMasterID";
             this.txtMasterID.Size = new System.Drawing.Size(97, 20);
@@ -150,6 +151,7 @@
             // 
             // txtDocNumber
             // 
+            this.txtDocNumber.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
             this.txtDocNumber.Location = new System.Drawing.Point(488, 7);
             this.txtDocNumber.Name = "txtDocNumber";
             this.txtDocNumber.Size = new System.Drawing.Size(89, 20);
