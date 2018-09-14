@@ -101,7 +101,7 @@ EXEC dbo.csspSOPTransactionSearch @StartDate = '2017-01-01',
           AND sh.DOCDATE <= @EndDate
           AND sh.SOPNUMBE LIKE '%' + @DocNumber + '%'
           AND sh.CUSTNMBR LIKE '%' + @CustomerID + '%'
-          AND sh.CUSTNAME LIKE '%' + @CustomerName + '%'
+          AND upper(sh.CUSTNAME) LIKE '%' + upper(@CustomerName) + '%'
           AND sh.DOCAMNT >= @AmountFrom
           AND sh.DOCAMNT <= @AmountTo
 		  AND (sl.ITEMNMBR LIKE '%' + @ItemNumber + '%' OR sl.ITEMDESC LIKE '%' + @ItemDescr + '%')

@@ -77,7 +77,7 @@ FROM	(
 	 WHERE R.DOCDATE >= @StartDate AND R.DOCDATE <= @EndDate
 	 AND R.DOCNUMBR LIKE '%'+@DocNumber+'%'
 	 AND R.CUSTNMBR LIKE '%'+@CustomerID+'%'
-	 AND C.CUSTNAME LIKE '%'+@CustomerName+'%'
+	 AND upper(C.CUSTNAME) LIKE '%'+upper(@CustomerName)+'%'
 	 AND R.ORTRXAMT >= @AmountFrom
 	 AND R.ORTRXAMT <= @AmountTo
 	

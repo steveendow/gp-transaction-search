@@ -83,7 +83,7 @@ FROM	(
 	 WHERE P.DOCDATE >= @StartDate AND P.DOCDATE <= @EndDate
 	 AND P.DOCNUMBR LIKE '%'+@DocNumber+'%'
 	 AND P.VENDORID LIKE '%'+@VendorID+'%'
-	 AND V.VENDNAME LIKE '%'+@VendorName+'%'
+	 AND upper(V.VENDNAME) LIKE '%'+upper(@VendorName)+'%'
 	 AND P.DOCAMNT >= @AmountFrom
 	 AND P.DOCAMNT <= @AmountTo
 	
