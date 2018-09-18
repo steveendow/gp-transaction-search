@@ -33,5 +33,6 @@ namespace GP.TransactionSearch
 
         public bool SOPSearchFocus { get; set; }
 
+        public bool DefaultDatesFromUserDate { get; set; }
     }
 }

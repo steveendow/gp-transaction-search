@@ -43,7 +43,15 @@ namespace GP.TransactionSearch
                 this.tsmViewMaster.Text = "View " + Controller.Instance.Model.PMVendorLabel;
             }
 
-            this.dateStart.Value = DateTime.Today.AddYears(-1);
+            if (Controller.Instance.Model.DefaultDatesFromUserDate)
+            {
+                this.dateEnd.Value = Dynamics.Globals.UserDate;
+                this.dateStart.Value = this.dateEnd.Value.AddYears(-1);
+            }
+            else
+            {
+                this.dateStart.Value = DateTime.Today.AddYears(-1);
+            }
 
             PrepDataGrid();
 

@@ -150,6 +150,20 @@ namespace GP.TransactionSearch
                     Controller.instance.Model.PMVendorLabel = string.Empty;
                 }
 
+                if (configSection.Settings.Get("DefaultDatesFromUserDate").Value != null && (!string.IsNullOrEmpty(configSection.Settings.Get("DefaultDatesFromUserDate").Value.ValueXml.InnerText)))
+                {
+                    success = bool.TryParse(configSection.Settings.Get("DefaultDatesFromUserDate").Value.ValueXml.InnerText, out boolSetting);
+
+                    if (success)
+                    {
+                        Controller.instance.Model.DefaultDatesFromUserDate = Convert.ToBoolean(configSection.Settings.Get("DefaultDatesFromUserDate").Value.ValueXml.InnerText);
+                    }
+                    else
+                    {
+                        Controller.instance.Model.DefaultDatesFromUserDate = false;
+                    }
+                }
+
                 return true;
 
             }
