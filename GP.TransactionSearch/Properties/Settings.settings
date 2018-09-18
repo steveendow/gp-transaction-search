@@ -11,5 +11,8 @@
     <Setting Name="RMCustomerLabel" Type="System.String" Scope="User">
       <Value Profile="(Default)">Customer</Value>
     </Setting>
+    <Setting Name="DefaultDatesFromUserDate" Type="System.String" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
