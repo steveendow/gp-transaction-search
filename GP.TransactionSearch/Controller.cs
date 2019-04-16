@@ -189,13 +189,13 @@ namespace GP.TransactionSearch
             }
         }
 
-        public PMTransaction GetPMTransaction(string trxNumber, string vendorID)
+        public PMTransaction GetPMKeysInfo(string trxNumber, string vendorID)
         {
             PMTransaction pmTrx = new PMTransaction();
 
             try
             {
-                DataTable dataTable = DataAccess.GetPMTransactionInfo(trxNumber, vendorID);
+                DataTable dataTable = DataAccess.GetPMKeysInfo(trxNumber, vendorID);
                 if (dataTable.Rows.Count == 1)
                 {
                     pmTrx = ObjectMapper.DataRowToObject<PMTransaction>(dataTable.Rows[0]);
@@ -207,6 +207,53 @@ namespace GP.TransactionSearch
             catch (Exception ex)
             {
                 MessageBox.Show("An error occurred in Controller.GetPMTransaction: " + ex.Message);
+                return pmTrx;
+            }
+        }
+
+
+        public PMVoucher GetPMVoucher(PMTransaction pmTrx)
+        {
+            PMVoucher pmVoucher = new PMVoucher();
+
+            try
+            {
+                DataTable dataTable = DataAccess.GetPMVoucherInfo(pmTrx.VENDORID, pmTrx.DOCTYPE, pmTrx.CNTRLNUM, pmTrx.DOCNUMBR);
+                if (dataTable.Rows.Count == 1)
+                {
+                    pmVoucher = ObjectMapper.DataRowToObject<PMVoucher>(dataTable.Rows[0]);
+                }
+
+                return pmVoucher;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred in Controller.GetPMVoucher: " + ex.Message);
+                return pmVoucher;
+            }
+        }
+
+
+
+        public POPTransaction GetPOPTransaction(string vendorID, string voucherNumber, string docNumber)
+        {
+            POPTransaction pmTrx = new POPTransaction();
+
+            try
+            {
+                DataTable dataTable = DataAccess.GetPOPTransactionInfo(vendorID, docNumber, voucherNumber);
+                if (dataTable.Rows.Count == 1)
+                {
+                    pmTrx = ObjectMapper.DataRowToObject<POPTransaction>(dataTable.Rows[0]);
+                }
+
+                return pmTrx;
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred in Controller.GetPOPTransaction: " + ex.Message);
                 return pmTrx;
             }
         }

@@ -62,6 +62,15 @@
  * -Fix to prevent multiple SOP windows from opening
  * -Fix to allow both RM and SOP windows to be open together
  * 
+ * v3.0.0.0 - October 19, 2018
+ * -Add support for POP Invoice Zoom window
+ * -Rename GetPMTransactionInfo to GetPMKeysInfo
+ * -Create GetPOPTransactionInfo to get additional info to support POP transaction lookup 
+ * -Add View Apply option to right click context menu on PM Transaction Search grid
+ * -Add PMVoucher.cs to store more complete info for PM transactions to support Apply Zoom
+ * -Add Controller.Instance.GetPMVoucher to retrieve more complete PM transaction info
+ * -Add OpenPMApplyInquiry to view PM Apply info
+ * 
  */
 
 

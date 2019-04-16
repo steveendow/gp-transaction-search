@@ -363,7 +363,7 @@ namespace GP.TransactionSearch
 
 
 
-        internal static DataTable GetPMTransactionInfo(string trxNumber, string vendorID)
+        internal static DataTable GetPMKeysInfo(string trxNumber, string vendorID)
         {
             try
             {
@@ -397,6 +397,81 @@ namespace GP.TransactionSearch
                 return null;
             }
         }
+
+
+        internal static DataTable GetPMVoucherInfo(string vendorID, int docType, string voucherNumber, string docNumber)
+        {
+            try
+            {
+                //Retrieve complete identifying information from PM tables to support lookup / drilldown in POP
+
+                string commandText = "SELECT P.Origin, P.VCHRNMBR, P.VENDORID, P.DOCTYPE, P.DOCDATE, P.DOCNUMBR, P.DOCAMNT, P.CURTRXAM, P.BACHNUMB, P.TRXSORCE, P.BCHSOURC, P.PORDNMBR, P.CHEKBKID, P.POSTEDDT, P.CURNCYID, P.PSTGDATE FROM ";
+                commandText += "(SELECT 'WORK' AS Origin, VCHNUMWK AS VCHRNMBR, VENDORID, DOCTYPE, DOCDATE, DOCNUMBR, DOCAMNT, CURTRXAM, BACHNUMB, '' AS TRXSORCE, BCHSOURC, PORDNMBR, CHEKBKID, POSTEDDT, CURNCYID, PSTGDATE FROM dbo.PM10000 UNION ";
+                commandText += "SELECT 'OPEN' AS Origin, VCHRNMBR, VENDORID, DOCTYPE, DOCDATE, DOCNUMBR, DOCAMNT, CURTRXAM, BACHNUMB, TRXSORCE, BCHSOURC, PORDNMBR, CHEKBKID, POSTEDDT, CURNCYID, PSTGDATE FROM dbo.PM20000 UNION ";
+                commandText += "SELECT 'HIST' AS Origin, VCHRNMBR, VENDORID, DOCTYPE, DOCDATE, DOCNUMBR, DOCAMNT, CURTRXAM, BACHNUMB, TRXSORCE, BCHSOURC, PORDNMBR, CHEKBKID, POSTEDDT, CURNCYID, PSTGDATE FROM dbo.PM30200) P ";
+                commandText += "WHERE P.VENDORID = @VENDORID AND P.DOCTYPE = @DOCTYPE AND P.VCHRNMBR = @VCHRNMBR AND P.DOCNUMBR = @DOCNUMBR";
+                
+                SqlParameter[] sqlParameters = new SqlParameter[4];
+                sqlParameters[0] = new SqlParameter("@VENDORID", System.Data.SqlDbType.VarChar, 15);
+                sqlParameters[0].Value = vendorID;
+                sqlParameters[1] = new SqlParameter("@DOCTYPE", System.Data.SqlDbType.Int);
+                sqlParameters[1].Value = docType;
+                sqlParameters[2] = new SqlParameter("@VCHRNMBR", System.Data.SqlDbType.VarChar, 17);
+                sqlParameters[2].Value = voucherNumber;
+                sqlParameters[3] = new SqlParameter("@DOCNUMBR", System.Data.SqlDbType.VarChar, 21);
+                sqlParameters[3].Value = docNumber;
+                
+                DataTable dataTable = new DataTable();
+
+                SqlConnection sqlConn = ConnectionGP();
+
+                int records = ExecuteDataSet(ref dataTable, sqlConn, Controller.Instance.Model.GPCompanyDB, CommandType.Text, commandText, sqlParameters);
+
+                return dataTable;
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred in GetPMVoucherInfo: " + ex.Message);
+                return null;
+            }
+        }
+
+
+        internal static DataTable GetPOPTransactionInfo(string vendorID, string docNumber, string voucherNumber)
+        {
+            try
+            {
+                string commandText = "SELECT pop.Origin, pop.POPRCTNM, pop.POPTYPE, pop.VNDDOCNM, pop.receiptdate, pop.BCHSOURC, pop.VENDORID, pop.POSTEDDT, pop.TRXSORCE, pop.VCHRNMBR FROM ";
+                commandText += "(SELECT 'OPEN' AS Origin, POPRCTNM, POPTYPE, VNDDOCNM, receiptdate, BCHSOURC, VENDORID, POSTEDDT, TRXSORCE, VCHRNMBR FROM dbo.POP10300 UNION ";
+                commandText += "SELECT 'HIST' AS Origin, POPRCTNM, POPTYPE, VNDDOCNM, receiptdate, BCHSOURC, VENDORID, POSTEDDT, TRXSORCE, VCHRNMBR FROM dbo.POP30300) pop ";
+                commandText += "WHERE pop.VENDORID = @VENDORID AND pop.VNDDOCNM = @VNDDOCNM AND pop.VCHRNMBR = @VCHRNMBR";
+
+                SqlParameter[] sqlParameters = new SqlParameter[3];
+                sqlParameters[0] = new SqlParameter("@VENDORID", System.Data.SqlDbType.VarChar, 15);
+                sqlParameters[0].Value = vendorID;
+                sqlParameters[1] = new SqlParameter("@VNDDOCNM", System.Data.SqlDbType.VarChar, 21);
+                sqlParameters[1].Value = docNumber;
+                sqlParameters[2] = new SqlParameter("@VCHRNMBR", System.Data.SqlDbType.VarChar, 21);
+                sqlParameters[2].Value = voucherNumber;
+
+                DataTable dataTable = new DataTable();
+
+                SqlConnection sqlConn = ConnectionGP();
+
+                int records = ExecuteDataSet(ref dataTable, sqlConn, Controller.Instance.Model.GPCompanyDB, CommandType.Text, commandText, sqlParameters);
+
+                return dataTable;
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred in GetPOPTransactionInfo: " + ex.Message);
+                return null;
+            }
+        }
+
+
 
 
         internal static DataTable GetRMTransactionInfo(string docNumber, int docType, string customerID)
