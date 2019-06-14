@@ -71,7 +71,8 @@
  * -Add Controller.Instance.GetPMVoucher to retrieve more complete PM transaction info
  * -Add OpenPMApplyInquiry to view PM Apply info
  * 
+ * 6/14/2019 - Create v3 branch
+ * 
  */
 
-
-// WISHLIST: Add support for POP Invoice Zoom window (Requires Dex assistance)
+ 
