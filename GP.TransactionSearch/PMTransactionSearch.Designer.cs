@@ -57,6 +57,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.txtAmountTo = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
+            this.tsmViewApply = new System.Windows.Forms.ToolStripMenuItem();
             this.statusPMTransaction.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bsPMTransaction)).BeginInit();
@@ -254,21 +255,23 @@
             // 
             this.cmsPMTransaction.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmViewMaster,
-            this.tsmViewTransaction});
+            this.tsmViewTransaction,
+            this.tsmViewApply});
             this.cmsPMTransaction.Name = "cmsPMTransaction";
-            this.cmsPMTransaction.Size = new System.Drawing.Size(165, 48);
+            this.cmsPMTransaction.Size = new System.Drawing.Size(181, 92);
+            this.cmsPMTransaction.Opening += new System.ComponentModel.CancelEventHandler(this.cmsPMTransaction_Opening);
             // 
             // tsmViewMaster
             // 
             this.tsmViewMaster.Name = "tsmViewMaster";
-            this.tsmViewMaster.Size = new System.Drawing.Size(164, 22);
+            this.tsmViewMaster.Size = new System.Drawing.Size(180, 22);
             this.tsmViewMaster.Text = "View Vendor";
             this.tsmViewMaster.Click += new System.EventHandler(this.tsmViewMaster_Click);
             // 
             // tsmViewTransaction
             // 
             this.tsmViewTransaction.Name = "tsmViewTransaction";
-            this.tsmViewTransaction.Size = new System.Drawing.Size(164, 22);
+            this.tsmViewTransaction.Size = new System.Drawing.Size(180, 22);
             this.tsmViewTransaction.Text = "View Transaction";
             this.tsmViewTransaction.Click += new System.EventHandler(this.tsmViewTransaction_Click);
             // 
@@ -310,6 +313,13 @@
             this.label7.Size = new System.Drawing.Size(23, 13);
             this.label7.TabIndex = 18;
             this.label7.Text = "To:";
+            // 
+            // tsmViewApply
+            // 
+            this.tsmViewApply.Name = "tsmViewApply";
+            this.tsmViewApply.Size = new System.Drawing.Size(180, 22);
+            this.tsmViewApply.Text = "View Apply";
+            this.tsmViewApply.Click += new System.EventHandler(this.tsmViewApply_Click);
             // 
             // PMTransactionSearch
             // 
@@ -380,5 +390,6 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TextBox txtAmountTo;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ToolStripMenuItem tsmViewApply;
     }
 }

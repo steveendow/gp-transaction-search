@@ -58,6 +58,10 @@ namespace GP.TransactionSearch
         public static PmTransactionEntryZoomForm pmTrxEntryZoom = Dynamics.Forms.PmTransactionEntryZoom;
         public static PmManualPaymentsZoomForm pmPaymentsZoom = Dynamics.Forms.PmManualPaymentsZoom;
 
+        public static PopInquiryInvoiceEntryForm popInvoiceInquiryForm = Dynamics.Forms.PopInquiryInvoiceEntry;
+        
+        public static PmApplyZoomForm pmApplyZoomForm = Dynamics.Forms.PmApplyZoom;
+
         public static PmVendorMaintenanceForm.PmVendorMaintenanceWindow pmVendorMaintWindow = pmVendorMaintForm.PmVendorMaintenance;
 
 
@@ -86,7 +90,7 @@ namespace GP.TransactionSearch
             pmTrxInquiryForm.AddMenuHandler(OpenPMTransactionSearch, "Open PM Transaction Search", "P");
             pmTrxInquiryDocForm.AddMenuHandler(OpenPMTransactionSearch, "Open PM Transaction Search", "P");
             pmVendorMaintForm.AddMenuHandler(OpenPMTransactionSearchVendor, "Open PM Transaction Search", "P");
-
+            
             rmTrxInquiryForm.AddMenuHandler(OpenRMTransactionSearch, "Open RM Transaction Search", "R");
             rmSalesInquiryForm.AddMenuHandler(OpenRMTransactionSearch, "Open RM Transaction Search", "R");
             rmCustomerMaintForm.AddMenuHandler(OpenRMTransactionSearchCustomer, "Open RM Transaction Search", "R");
@@ -99,11 +103,15 @@ namespace GP.TransactionSearch
             // Register Event to handle callbacks from menu entries
             MenusForVisualStudioTools.Functions.EventHandler.InvokeAfterOriginal += new EventHandlerFunction.InvokeEventHandler(VSTMCommandFormCallback);
 
-
             //Return focus to PM Search window after the drill down / zoom window is closed
             pmTrxEntryZoom.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
             pmPaymentsZoom.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
             pmVendorInquiryForm.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
+
+            popInvoiceInquiryForm.CloseAfterOriginal += new EventHandler(TestWindowClosed);  //(SetPMSearchFocus);
+            popInvoiceInquiryForm.OpenAfterOriginal += new EventHandler(TestWindowOpened);
+
+            pmApplyZoomForm.CloseAfterOriginal += new EventHandler(SetPMSearchFocus);
 
             //Return focus to RM Search window after the drill down / zoom window is closed
             rmCustomerInquiryForm.CloseAfterOriginal += new EventHandler(SetRMSearchFocus);
@@ -115,6 +123,15 @@ namespace GP.TransactionSearch
 
         }
 
+        private void TestWindowOpened(object sender, EventArgs e)
+        {
+            MessageBox.Show("popInvoiceInquiryForm opened");
+        }
+
+        private void TestWindowClosed(object sender, EventArgs e)
+        {
+            MessageBox.Show("popInvoiceInquiryForm closed");
+        }
 
         // Script to Register menu entries
         // void VSTMCommandFormRegister(object sender, EventArgs e)
@@ -389,6 +406,7 @@ namespace GP.TransactionSearch
 
         private void SetPMSearchFocus(object sender, EventArgs e)
         {
+            //Return focus to PM search window after GP window is closed
             if (Controller.Instance.Model.PMSearchFocus)
             {
                 SetPMTransactionSearchFocus();
@@ -420,6 +438,7 @@ namespace GP.TransactionSearch
 
         private void SetRMSearchFocus(object sender, EventArgs e)
         {
+            //Return focus to RM search window after GP window is closed
             if (Controller.Instance.Model.RMSearchFocus)
             {
                 SetRMTransactionSearchFocus();
@@ -432,6 +451,7 @@ namespace GP.TransactionSearch
 
         private void SetRMTransactionSearchFocus()
         {
+            //Return focus to Search window after GP inquiry window is closed
             Application.OpenForms[rmSearch.Name].Focus();
             Controller.Instance.Model.RMSearchFocus = false;
         }

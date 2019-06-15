@@ -76,6 +76,8 @@
     <Compile Include="GpAddIn.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="PMTransaction.cs" />
+    <Compile Include="PMVoucher.cs" />
+    <Compile Include="POPTransaction.cs" />
     <Compile Include="RMTransaction.cs" />
     <Compile Include="SOPSearchFilter.cs" />
     <Compile Include="SOPTransaction.cs" />

@@ -259,6 +259,7 @@ namespace GP.TransactionSearch
 
                     if (!string.IsNullOrEmpty(masterID))
                     {
+                        //Set flag to return focus to Search window after GP inquiry window is closed
                         Controller.Instance.Model.RMSearchFocus = true;
                         OpenRMCustomerInquiry(masterID);
                     }
@@ -356,11 +357,13 @@ namespace GP.TransactionSearch
             {
                 if (rmTrx.BCHSOURC.ToUpper().Contains("RM_SALES"))
                 {
+                    //Set flag to return focus to Search window after GP inquiry window is closed
                     Controller.Instance.Model.RMSearchFocus = true;
                     Dynamics.Forms.RmSalesInquiry.Procedures.OpenWindow.Invoke(rmTrx.RMDTYPAL, rmTrx.DOCNUMBR, rmTrx.DCSTATUS, 1, 8806);
                 }
                 else if (rmTrx.BCHSOURC.ToUpper().Contains("SALES ENTRY"))
                 {
+                    //Set flag to return focus to Search window after GP inquiry window is closed
                     Controller.Instance.Model.RMSearchFocus = true;
                     Dynamics.Forms.SopInquiry.Procedures.Open.Invoke(rmTrx.RMDTYPAL, rmTrx.DOCNUMBR, rmTrx.DCSTATUS, 9, 1, 8806);  //9 = RM
                 }
@@ -393,6 +396,7 @@ namespace GP.TransactionSearch
             }
             else
             {
+                //Set flag to return focus to Search window after GP inquiry window is closed
                 Controller.Instance.Model.RMSearchFocus = true;
                 Dynamics.Forms.RmCashInquiry.Procedures.OpenWindow.Invoke(rmTrx.DOCNUMBR, rmTrx.DCSTATUS, 1, 8806);
             }

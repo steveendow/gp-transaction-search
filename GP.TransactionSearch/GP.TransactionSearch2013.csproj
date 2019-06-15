@@ -82,6 +82,8 @@
     <Compile Include="PMTransactionSearch.Designer.cs">
       <DependentUpon>PMTransactionSearch.cs</DependentUpon>
     </Compile>
+    <Compile Include="PMVoucher.cs" />
+    <Compile Include="POPTransaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RMTransaction.cs" />
     <Compile Include="RMTransactionSearch.cs">

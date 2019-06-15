@@ -195,6 +195,7 @@ namespace GP.TransactionSearch
             this.status4.Text = "Data: " + dataTime.ToString() + "ms  |  Display: " + displayTime.ToString() + "ms";
         }
 
+
         private void txtDocNumber_TextChanged(object sender, EventArgs e)
         {
             if (Controller.Instance.Model.SearchAsYouType)
@@ -249,6 +250,7 @@ namespace GP.TransactionSearch
 
                     if (!string.IsNullOrEmpty(masterID))
                     {
+                        //Set flag to return focus to Search window after GP inquiry window is closed
                         Controller.Instance.Model.PMSearchFocus = true;
                         OpenPMVendorInquiry(masterID);
                     }
@@ -296,7 +298,7 @@ namespace GP.TransactionSearch
 
                     if (!string.IsNullOrEmpty(trxNumber) && !string.IsNullOrEmpty(vendorID))
                     {
-                        PMTransaction pmTrx = Controller.Instance.GetPMTransaction(trxNumber, vendorID);
+                        PMTransaction pmTrx = Controller.Instance.GetPMKeysInfo(trxNumber, vendorID);
                         //OpenPMTransactionInquiry(pmTrx);
                         OpenPMDocumentInquiry(pmTrx);
                     }
@@ -309,6 +311,44 @@ namespace GP.TransactionSearch
                 MessageBox.Show("An error occurred reading the master ID: " + ex.Message, "Error", MessageBoxButtons.OK);
             }
         }
+
+
+
+        private void tsmViewApply_Click(object sender, EventArgs e)
+        {
+            ViewApply();
+        }
+
+
+        private void ViewApply()
+        {
+            //If View Apply was clicked 
+            try
+            {
+                if (dataGrid.Rows.Count > 0)
+                {
+                    string fieldName = Controller.Instance.Model.PMVendorLabel + "ID";
+                    string trxNumber = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells["TrxNumber"].Value.ToString();
+                    string vendorID = dataGrid.Rows[dataGrid.SelectedRows[0].Index].Cells[fieldName].Value.ToString();
+
+                    if (!string.IsNullOrEmpty(trxNumber) && !string.IsNullOrEmpty(vendorID))
+                    {
+                        PMTransaction pmTrx = Controller.Instance.GetPMKeysInfo(trxNumber, vendorID);
+
+                        PMVoucher pmVoucher = Controller.Instance.GetPMVoucher(pmTrx);
+
+                        OpenPMApplyInquiry(pmVoucher);
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred reading the master ID: " + ex.Message, "Error", MessageBoxButtons.OK);
+            }
+        }
+
 
 
         private void OpenPMDocumentInquiry(PMTransaction pmTrx)
@@ -324,20 +364,23 @@ namespace GP.TransactionSearch
             }
             else
             {
-                OpenPMTransactionInquiry(pmTrx);
-
-
-                //The POP Invoice Inquiry Zoom window (POP_Inquiry_Invoice_Entry) apparently can't be opened directly by VS Tools, 
-                //so skip it for now and only open the PM Trx Inquiry window
-
-                //if (pmTrx.BCHSOURC == "PM_Trxent")
-                //{
-                //    OpenPMTransactionInquiry(pmTrx);
-                //}
-                //else if (pmTrx.BCHSOURC == "Rcvg Trx Ivc")
-                //{
-                //    OpenPOPInvoiceInquiry(pmTrx);
-                //}
+                
+                if (pmTrx.BCHSOURC == "PM_Trxent")
+                {
+                    OpenPMTransactionInquiry(pmTrx);
+                }
+                else if (pmTrx.BCHSOURC == "Rcvg Trx Ivc")
+                {
+                    POPTransaction popTrx = Controller.Instance.GetPOPTransaction(pmTrx.VENDORID, pmTrx.CNTRLNUM, pmTrx.DOCNUMBR);
+                    if (popTrx != null)
+                    {
+                        OpenPOPInvoiceInquiry(popTrx);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Unable to retrieve POP transaction for vendor " + pmTrx.VENDORID + " voucher " + pmTrx.CNTRLNUM);
+                    }
+                }
             }
         }
 
@@ -355,6 +398,7 @@ namespace GP.TransactionSearch
             }
             else
             {
+                //Set flag to return focus to Search window after GP inquiry window is closed
                 Controller.Instance.Model.PMSearchFocus = true;
                 Dynamics.Forms.PmTransactionEntryZoom.Procedures.OpenWindow.Invoke(pmTrx.DOCTYPE, pmTrx.CNTRLNUM, pmTrx.DCSTATUS, 1, 7814);
             }
@@ -362,34 +406,20 @@ namespace GP.TransactionSearch
         }
 
 
-        private void OpenPOPInvoiceInquiry(PMTransaction pmTrx)
+        private void OpenPOPInvoiceInquiry(POPTransaction popTrx)
         {
-            if (string.IsNullOrEmpty(pmTrx.VENDORID) || string.IsNullOrEmpty(pmTrx.DOCNUMBR))
+            if (string.IsNullOrEmpty(popTrx.VENDORID) || string.IsNullOrEmpty(popTrx.POPRCTNM))
             {
                 return;
             }
+            else
+            {
 
-            //The PopInquiryInvoiceEntry window does not expose an OpenWindow.Invoke procedure in VS Tools, so use Continuum instead
-            //Dynamics.Forms.PopInquiryInvoiceEntry.Procedures.OpenWindow.Invoke(0, "RCT1107", 2, 3, 1);
-            
-
-
-            //Dynamics.Application gpApp = new Dynamics.Application();
-            //string compilerMessage = string.Empty;
-
-            //Params.Param5 param5 = new Params.Param5();
-            //param5.p1 = "0";
-            //param5.p2 = "RCT1107";
-            //param5.p3 = "2";
-            //param5.p4 = "3";
-            //param5.p5 = "1";
-
-            //string gpAppCommand = "OpenWindow() of form POP_Inquiry_Invoice_Entry";
-
-            //gpApp.SetParamHandler(param5);
-
-            //int compilerError = gpApp.ExecuteSanscript(gpAppCommand, out compilerMessage);
-
+                //Set flag to return focus to Search window after GP inquiry window is closed
+                Controller.Instance.Model.PMSearchFocus = true;
+                //OpenWindow is available under FUNCTIONS, not Procedures, with this particular Purchasing window
+                Dynamics.Forms.PopInquiryInvoiceEntry.Functions.OpenWindow.Invoke(popTrx.POPRCTNM, 2, 3, 1);
+            }
         }
 
 
@@ -406,12 +436,37 @@ namespace GP.TransactionSearch
             }
             else
             {
+                //Set flag to return focus to Search window after GP inquiry window is closed
                 Controller.Instance.Model.PMSearchFocus = true;
                 Dynamics.Forms.PmManualPaymentsZoom.Procedures.OpenWindow.Invoke(pmTrx.CNTRLNUM, pmTrx.DCSTATUS, 1, 7814);
 
             }
 
         }
+
+
+        private void OpenPMApplyInquiry(PMVoucher pmVoucher)
+        {
+            if (string.IsNullOrEmpty(pmVoucher.VENDORID) || string.IsNullOrEmpty(pmVoucher.DOCNUMBR))
+            {
+                return;
+            }
+
+            if (pmVoucher.DOCTYPE == 1)
+            {
+                //Set flag to return focus to Search window after GP inquiry window is closed
+                Controller.Instance.Model.PMSearchFocus = true;
+                Dynamics.Forms.PmApplyZoom.Procedures.OpenWindow.Invoke(pmVoucher.VCHRNMBR, pmVoucher.DOCNUMBR, pmVoucher.DOCTYPE, pmVoucher.DOCAMNT, pmVoucher.VENDORID, pmVoucher.CURTRXAM, pmVoucher.CURNCYID, "", "", 0.0m, 0, 0.0m, 0, "Transaction Entry", 7817);
+            }
+            else if (pmVoucher.DOCTYPE == 6)
+            {
+                //Set flag to return focus to Search window after GP inquiry window is closed
+                Controller.Instance.Model.PMSearchFocus = true;
+                Dynamics.Forms.PmApplyZoom.Procedures.OpenWindow.Invoke(pmVoucher.VCHRNMBR, pmVoucher.DOCNUMBR, pmVoucher.DOCTYPE, pmVoucher.DOCAMNT, pmVoucher.VENDORID, pmVoucher.CURTRXAM, pmVoucher.CURNCYID, "", "", 0.0m, 0, 0.0m, 0, "Payment Entry", 7818);
+            }
+
+        }
+
 
 
         private void dataGrid_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
@@ -525,6 +580,11 @@ namespace GP.TransactionSearch
         private void dataGrid_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             ViewTransaction();
+        }
+
+        private void cmsPMTransaction_Opening(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }
