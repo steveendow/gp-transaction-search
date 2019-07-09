@@ -36,27 +36,24 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Application.Dynamics, Version=16.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Application.Dynamics.dll</HintPath>
+    <Reference Include="Application.Dynamics">
+      <HintPath>..\..\1 GP Files\GP2018\Application.Dynamics.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Application.MenusForVisualStudioTools">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Application.MenusForVisualStudioTools.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2018\Application.MenusForVisualStudioTools.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="GPSQLConnection2016, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="GPSQLConnection2018, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>GPSQLConnection\GPSQLConnection2016.dll</HintPath>
+      <HintPath>..\..\1 GP Files\GP2018\GPSQLConnection2018.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Dexterity.Bridge, Version=16.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Microsoft.Dexterity.Bridge.dll</HintPath>
+    <Reference Include="Microsoft.Dexterity.Bridge">
+      <HintPath>..\..\1 GP Files\GP2018\Microsoft.Dexterity.Bridge.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.Dexterity.Shell, Version=16.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Dynamics\GP2016\Microsoft.Dexterity.Shell.dll</HintPath>
+    <Reference Include="Microsoft.Dexterity.Shell">
+      <HintPath>..\..\1 GP Files\GP2018\Microsoft.Dexterity.Shell.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -76,6 +73,12 @@
     <Compile Include="GpAddIn.cs" />
     <Compile Include="Model.cs" />
     <Compile Include="PMTransaction.cs" />
+    <Compile Include="PMTransactionSearchMEM.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PMTransactionSearchMEM.Designer.cs">
+      <DependentUpon>PMTransactionSearchMEM.cs</DependentUpon>
+    </Compile>
     <Compile Include="PMVoucher.cs" />
     <Compile Include="POPTransaction.cs" />
     <Compile Include="RMTransaction.cs" />
@@ -107,6 +110,9 @@
     <Compile Include="TransactionSearch.Designer.cs">
       <DependentUpon>TransactionSearch.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="PMTransactionSearchMEM.resx">
+      <DependentUpon>PMTransactionSearchMEM.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SOPTransactionSearch.resx">
       <DependentUpon>SOPTransactionSearch.cs</DependentUpon>
     </EmbeddedResource>
@@ -223,9 +229,11 @@
     <Content Include="GPSQLConnection\GPSQLConnection2015.dll" />
     <Content Include="GPSQLConnection\GPSQLConnection2016.dll" />
     <Content Include="GPSQLConnection\GPSQLConnection2018.dll" />
-    <Content Include="SQL\csspPMTransactionSearch v1.1.sql" />
-    <Content Include="SQL\csspRMTransactionSearch v1.0.sql" />
-    <Content Include="SQL\csspSOPTransactionSearch v1.0.sql" />
+    <Content Include="SQL\csspMEMGetUserFacilityIDs v1.0.sql" />
+    <Content Include="SQL\csspPMTransactionSearch v1.2.sql" />
+    <Content Include="SQL\csspPMTransactionSearchMEM v1.0.sql" />
+    <Content Include="SQL\csspRMTransactionSearch v1.1.sql" />
+    <Content Include="SQL\csspSOPTransactionSearch v1.1.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

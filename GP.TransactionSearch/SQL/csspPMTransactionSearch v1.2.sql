@@ -28,6 +28,7 @@ https://victoriayudin.com/2009/10/12/sql-view-for-all-posted-payables-transactio
 Created May 23, 2018 by Steve Endow
 
 June 5, 2018: Version 1.1 - Add From / To Amount
+Sept 14, 2018: Version 1.2 - Add UPPER() function to WHERE clause parameters for Binary sort order databases
 
 EXEC dbo.csspPMTransactionSearch @StartDate = '2017-01-01',
                                   @EndDate = '2017-12-31',   
@@ -81,9 +82,9 @@ FROM	(
      INNER JOIN dbo.PM00200 V ON V.VENDORID = P.VENDORID
 
 	 WHERE P.DOCDATE >= @StartDate AND P.DOCDATE <= @EndDate
-	 AND P.DOCNUMBR LIKE '%'+@DocNumber+'%'
-	 AND P.VENDORID LIKE '%'+@VendorID+'%'
-	 AND V.VENDNAME LIKE '%'+@VendorName+'%'
+	 AND P.DOCNUMBR LIKE '%'+ UPPER(@DocNumber) +'%'
+	 AND P.VENDORID LIKE '%'+ UPPER(@VendorID) +'%'
+	 AND UPPER(V.VENDNAME) LIKE '%' + UPPER(@VendorName) + '%'
 	 AND P.DOCAMNT >= @AmountFrom
 	 AND P.DOCAMNT <= @AmountTo
 	

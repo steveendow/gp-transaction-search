@@ -2,14 +2,20 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GP.TransactionSearch.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SearchAsYouType" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
+    <Setting Name="SearchAsYouType" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
-    <Setting Name="PMVendorLabel" Type="System.String" Scope="User">
+    <Setting Name="PMVendorLabel" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)">Vendor</Value>
     </Setting>
-    <Setting Name="RMCustomerLabel" Type="System.String" Scope="User">
+    <Setting Name="RMCustomerLabel" GenerateDefaultValueInCode="false" Type="System.String" Scope="User">
       <Value Profile="(Default)">Customer</Value>
+    </Setting>
+    <Setting Name="BinaryStreamMEM" GenerateDefaultValueInCode="false" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="MEMFacilityIDSegment" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">1</Value>
     </Setting>
   </Settings>
 </SettingsFile>

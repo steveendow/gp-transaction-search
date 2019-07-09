@@ -15,5 +15,8 @@ namespace GP.TransactionSearch
         public string DocNumber { get; set; }
         public decimal AmountFrom { get; set; }
         public decimal AmountTo { get; set; }
+
+        public string SelectedEntities { get; set; }
+
     }
 }

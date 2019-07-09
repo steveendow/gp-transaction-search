@@ -28,6 +28,8 @@ https://victoriayudin.com/2009/10/12/sql-view-for-all-posted-payables-transactio
 
 Created June 19, 2018 by Ian Grieve
 
+Sept 14, 2018: Version 1.1 - Add UPPER() function to WHERE clause parameters for Binary sort order databases
+
 EXEC dbo.csspRMTransactionSearch @StartDate = '2017-01-01',
                                   @EndDate = '2017-12-31',   
                                   @DocNumber = '200', 
@@ -73,11 +75,11 @@ FROM	(
 
      INNER JOIN dbo.RM00101 C WITH (NOLOCK) ON C.CUSTNMBR = R.CUSTNMBR
 	 	 INNER JOIN dbo.RM40401 S WITH (NOLOCK) ON S.RMDTYPAL = R.RMDTYPAL
-
+		 A
 	 WHERE R.DOCDATE >= @StartDate AND R.DOCDATE <= @EndDate
-	 AND R.DOCNUMBR LIKE '%'+@DocNumber+'%'
-	 AND R.CUSTNMBR LIKE '%'+@CustomerID+'%'
-	 AND C.CUSTNAME LIKE '%'+@CustomerName+'%'
+	 AND R.DOCNUMBR LIKE '%'+ UPPER(@DocNumber) +'%'
+	 AND R.CUSTNMBR LIKE '%'+ UPPER(@CustomerID) +'%'
+	 AND UPPER(C.CUSTNAME) LIKE '%'+ UPPER(@CustomerName) +'%'
 	 AND R.ORTRXAMT >= @AmountFrom
 	 AND R.ORTRXAMT <= @AmountTo
 	

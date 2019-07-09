@@ -23,6 +23,7 @@ on Doc Date, Doc Number, Customer ID, and Vendor Name
 
 Created June 23, 2018 by Ian Grieve
 
+Sept 14, 2018: Version 1.1 - Add UPPER() function to WHERE clause parameters for Binary sort order databases
 
 EXEC dbo.csspSOPTransactionSearch @StartDate = '2017-01-01',
                                   @EndDate = '2017-12-31',   
@@ -99,9 +100,9 @@ EXEC dbo.csspSOPTransactionSearch @StartDate = '2017-01-01',
 
     WHERE sh.DOCDATE >= @StartDate
           AND sh.DOCDATE <= @EndDate
-          AND sh.SOPNUMBE LIKE '%' + @DocNumber + '%'
-          AND sh.CUSTNMBR LIKE '%' + @CustomerID + '%'
-          AND sh.CUSTNAME LIKE '%' + @CustomerName + '%'
+          AND sh.SOPNUMBE LIKE '%' + UPPER(@DocNumber) + '%'
+          AND sh.CUSTNMBR LIKE '%' + UPPER(@CustomerID) + '%'
+          AND UPPER(sh.CUSTNAME) LIKE '%' + UPPER(@CustomerName) + '%'
           AND sh.DOCAMNT >= @AmountFrom
           AND sh.DOCAMNT <= @AmountTo
 		  AND (sl.ITEMNMBR LIKE '%' + @ItemNumber + '%' OR sl.ITEMDESC LIKE '%' + @ItemDescr + '%')

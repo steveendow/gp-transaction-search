@@ -150,6 +150,39 @@ namespace GP.TransactionSearch
                     Controller.instance.Model.PMVendorLabel = string.Empty;
                 }
 
+
+                bool enableMEM = false;
+                if (configSection.Settings.Get("BinaryStreamMEM") != null && configSection.Settings.Get("BinaryStreamMEM").Value != null && (!string.IsNullOrEmpty(configSection.Settings.Get("BinaryStreamMEM").Value.ValueXml.InnerText)))
+                {
+                    if (bool.TryParse(configSection.Settings.Get("BinaryStreamMEM").Value.ValueXml.InnerText.Trim(), out enableMEM)) {
+                        Controller.instance.Model.BinaryStreamMEM = enableMEM;
+                    }
+                    else {
+                        Controller.instance.Model.BinaryStreamMEM = false;
+                    }
+                }
+                else
+                {
+                    Controller.instance.Model.BinaryStreamMEM = false;
+                }
+
+
+                int memSegment = 1;
+                if (configSection.Settings.Get("MEMFacilityIDSegment") != null && configSection.Settings.Get("MEMFacilityIDSegment").Value != null && (!string.IsNullOrEmpty(configSection.Settings.Get("MEMFacilityIDSegment").Value.ValueXml.InnerText)))
+                {
+                    if (int.TryParse(configSection.Settings.Get("MEMFacilityIDSegment").Value.ValueXml.InnerText.Trim(), out memSegment)) {
+                        Controller.instance.Model.MEMFacilityIDSegment = memSegment;
+                    } else {
+                        Controller.instance.Model.MEMFacilityIDSegment = 1;
+                    }
+                }
+                else
+                {
+                    Controller.instance.Model.MEMFacilityIDSegment = 1;
+                }
+
+
+
                 return true;
 
             }

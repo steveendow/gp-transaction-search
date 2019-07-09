@@ -72,7 +72,11 @@
  * -Add OpenPMApplyInquiry to view PM Apply info
  * 
  * 6/14/2019 - Create v3 branch
+ * -Update SQL script files to latest versions
+ * -Add support for Binary Stream MEM
+ *      -Create csspMEMGetUserFacilityIDs v1.0.sql stored procedure
+ *      -Add DataAccess.MEMGetUserFacilityIDs
+ *      -Create new PMTransactionSearchMEM winform with Facility list filter
  * 
  */
 
- 

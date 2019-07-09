@@ -470,9 +470,7 @@ namespace GP.TransactionSearch
                 return null;
             }
         }
-
-
-
+        
 
         internal static DataTable GetRMTransactionInfo(string docNumber, int docType, string customerID)
         {
@@ -505,5 +503,76 @@ namespace GP.TransactionSearch
                 return null;
             }
         }
+
+
+
+
+        internal static DataTable MEMGetUserFacilityIDs(int segmentNumber)
+        {
+            try
+            {
+                string commandText = "csspMEMGetUserFacilityIDs";
+
+                SqlParameter[] sqlParameters = new SqlParameter[1];
+                sqlParameters[0] = new SqlParameter("@SegmentNumber", System.Data.SqlDbType.Int);
+                sqlParameters[0].Value = segmentNumber;
+                
+                DataTable dataTable = new DataTable();
+
+                SqlConnection sqlConn = ConnectionGP();
+
+                int records = ExecuteDataSet(ref dataTable, sqlConn, Controller.Instance.Model.GPCompanyDB, CommandType.StoredProcedure, commandText, sqlParameters);
+
+                return dataTable;
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred in GetRMTransactionInfo: " + ex.Message);
+                return null;
+            }
+        }
+
+
+        internal static DataTable PMTransactionSearchMEM(DateTime startDate, DateTime endDate, string docNumber, string vendorID, string vendorName, decimal amountFrom, decimal amountTo, string selectedEntities) {
+            try {
+
+                string commandText = "csspPMTransactionSearchMEM";
+
+                SqlParameter[] sqlParameters = new SqlParameter[8];
+                sqlParameters[0] = new SqlParameter("@StartDate", System.Data.SqlDbType.DateTime);
+                sqlParameters[0].Value = startDate;
+                sqlParameters[1] = new SqlParameter("@EndDate", System.Data.SqlDbType.DateTime);
+                sqlParameters[1].Value = endDate;
+                sqlParameters[2] = new SqlParameter("@DocNumber", System.Data.SqlDbType.VarChar, 21);
+                sqlParameters[2].Value = docNumber;
+                sqlParameters[3] = new SqlParameter("@VendorID", System.Data.SqlDbType.VarChar, 15);
+                sqlParameters[3].Value = vendorID;
+                sqlParameters[4] = new SqlParameter("@VendorName", System.Data.SqlDbType.VarChar, 65);
+                sqlParameters[4].Value = vendorName;
+                sqlParameters[5] = new SqlParameter("@AmountFrom", System.Data.SqlDbType.Decimal);
+                sqlParameters[5].Value = amountFrom;
+                sqlParameters[6] = new SqlParameter("@AmountTo", System.Data.SqlDbType.Decimal);
+                sqlParameters[6].Value = amountTo;
+                sqlParameters[7] = new SqlParameter("@SelectedEntities", System.Data.SqlDbType.VarChar, 5000);
+                sqlParameters[7].Value = selectedEntities;
+
+
+                DataTable dataTable = new DataTable();
+
+                SqlConnection sqlConn = ConnectionGP();
+
+                int records = ExecuteDataSet(ref dataTable, sqlConn, Controller.Instance.Model.GPCompanyDB, CommandType.StoredProcedure, commandText, sqlParameters);
+
+                return dataTable;
+            }
+
+            catch (Exception ex) {
+                MessageBox.Show("An unexpected error occurred in DataAccess.PMTransactionSearchMEM: " + ex.Message);
+                return null;
+            }
+        }
+
+
     }
 }

@@ -33,5 +33,10 @@ namespace GP.TransactionSearch
 
         public bool SOPSearchFocus { get; set; }
 
+
+        public bool BinaryStreamMEM { get; set; }
+        public int MEMFacilityIDSegment { get; set; }
+
+
     }
 }

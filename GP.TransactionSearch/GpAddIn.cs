@@ -78,10 +78,13 @@ namespace GP.TransactionSearch
         private static RMTransactionSearch rmSearch = null;
         private static SOPTransactionSearch sopSearch = null;
 
+        private static PMTransactionSearchMEM pmSearchMEM = null;
+
 
         public void Initialize()
         {
             bool success = Controller.Instance.LoadConfiguration();
+            
             if (!success)
             {
                 MessageBox.Show("Failed to load GP Transaction Search configuration", "Configuration Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -258,11 +261,7 @@ namespace GP.TransactionSearch
                 }
                 #endregion
 
-
-
-
-
-
+               
                 #region Add GL Transaction Search Menu
                 //ParentTag = MenusForVisualStudioTools.Functions.GetTagByName.Invoke(DYNAMICS, "Command_Financial", "CL_Financial_Inquiry");           // Dictionary ID, Form Name, Command Name
                 //if (ParentTag <= 0)
@@ -383,7 +382,7 @@ namespace GP.TransactionSearch
 
         private void OpenPMTransactionSearch(object sender, EventArgs e)
         {
-            OpenPMSearch();
+            OpenPMSearch();    
         }
 
         private void OpenPMTransactionSearchVendor(object sender, EventArgs e)
@@ -395,15 +394,39 @@ namespace GP.TransactionSearch
 
         private void OpenPMSearch()
         {
-            if (pmSearch == null)
-            {
-                pmSearch = new PMTransactionSearch();
-                pmSearch.FormClosed += delegate { pmSearch = null; };
-                pmSearch.Show();
+            
+                if (!Controller.Instance.Model.BinaryStreamMEM)
+                {
+                    if (pmSearch == null) {
+                        var pmSearch = new PMTransactionSearch();
+                        pmSearch.FormClosed += delegate {
+                            pmSearch = null;
+                        };
+                        pmSearch.Show();
+                    }
+                }
+                else
+                {
+                    if (pmSearchMEM == null) {
+                        var pmSearchMEM = new PMTransactionSearchMEM();
+                        pmSearchMEM.FormClosed += delegate {
+                            pmSearchMEM = null;
+                        };
+                        pmSearchMEM.Show();
+                    }
+                }
+            
+            string pmSearchName = string.Empty;
+            if(!Controller.Instance.Model.BinaryStreamMEM) {
+                pmSearchName = pmSearch.Name;
+            } else {
+                pmSearchName = pmSearchMEM.Name;
             }
-            Application.OpenForms[pmSearch.Name].Focus();
-        }
 
+            Application.OpenForms[pmSearchName].Focus();
+            
+        }
+        
         private void SetPMSearchFocus(object sender, EventArgs e)
         {
             //Return focus to PM search window after GP window is closed
@@ -415,7 +438,15 @@ namespace GP.TransactionSearch
         
         private void SetPMTransactionSearchFocus()
         {
-            Application.OpenForms[pmSearch.Name].Focus();
+            string pmSearchName = string.Empty;
+
+            if (!Controller.Instance.Model.BinaryStreamMEM) {
+                pmSearchName = pmSearch.Name;
+            } else {
+                pmSearchName = pmSearchMEM.Name;
+            }
+
+            Application.OpenForms[pmSearchName].Focus();
             Controller.Instance.Model.PMSearchFocus = false;
         }
 
