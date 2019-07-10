@@ -77,6 +77,8 @@
  *      -Create csspMEMGetUserFacilityIDs v1.0.sql stored procedure
  *      -Add DataAccess.MEMGetUserFacilityIDs
  *      -Create new PMTransactionSearchMEM winform with Facility list filter
- * 
+ *      -Create csspMEMGetUserFacilityIDs v1.0.sql to retrieve permitted entities for the current user
+ *      -Create csspPMTransactionSearchMEM v1.0.sql to retrieve PM Transactions based on the Entities selected by the user
+ *      
  */
 

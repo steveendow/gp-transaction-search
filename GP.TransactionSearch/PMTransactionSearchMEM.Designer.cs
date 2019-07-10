@@ -332,6 +332,7 @@
             // 
             // listMEMFacilities
             // 
+            this.listMEMFacilities.CheckOnClick = true;
             this.listMEMFacilities.FormattingEnabled = true;
             this.listMEMFacilities.Location = new System.Drawing.Point(50, 10);
             this.listMEMFacilities.Name = "listMEMFacilities";

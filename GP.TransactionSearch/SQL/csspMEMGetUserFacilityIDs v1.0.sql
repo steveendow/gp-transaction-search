@@ -28,7 +28,7 @@ EXEC dbo.csspMEMGetUserFacilityIDs @SegmentNumber = 1
 	IF @cur_user = 'dbo'
 		SET @cur_user = 'sa'
 
-	SELECT gls.SGMNTID AS FacilityID, RTRIM(gls.DSCRIPTN) AS DSCRIPTN 
+	SELECT RTRIM(gls.SGMNTID) AS FacilityID, RTRIM(gls.DSCRIPTN) AS DSCRIPTN 
 	FROM GL40200 gls
 	JOIN B3900200 mema ON (mema.BSSI_Facility_ID = gls.SGMNTID AND mema.USERID = @cur_user)
 	WHERE gls.SGMTNUMB = @SegmentNumber ORDER BY gls.SGMNTID

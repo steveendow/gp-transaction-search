@@ -1,3 +1,41 @@
+--The string_split function is only availale on SQL Server 2016 and higher.
+--On older versions of SQL Server, use the intlist_to_tbl User Defined Function instead
+--Function from:  http://www.sommarskog.se/arrays-in-sql.html
+
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'TF' AND name = 'intlist_to_tbl')
+DROP FUNCTION intlist_to_tbl
+GO
+
+CREATE FUNCTION intlist_to_tbl (@list nvarchar(MAX))
+   RETURNS @tbl TABLE (itemvalue VARCHAR(50) NOT NULL) AS
+BEGIN
+   DECLARE @pos        int,
+           @nextpos    int,
+           @valuelen   int
+
+   SELECT @pos = 0, @nextpos = 1
+
+   WHILE @nextpos > 0
+   BEGIN
+      SELECT @nextpos = charindex(',', @list, @pos + 1)
+      SELECT @valuelen = CASE WHEN @nextpos > 0
+                              THEN @nextpos
+                              ELSE len(@list) + 1
+                         END - @pos - 1
+      INSERT @tbl (itemvalue)
+         VALUES (convert(VARCHAR(50), substring(@list, @pos + 1, @valuelen)))
+      SELECT @pos = @nextpos
+   END
+   RETURN
+END
+GO
+
+GRANT SELECT ON intlist_to_tbl TO DYNGRP
+GO
+
+
+
+
 IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND name = 'csspPMTransactionSearchMEM')
 DROP PROCEDURE csspPMTransactionSearchMEM
 GO
@@ -71,24 +109,24 @@ SELECT TOP 200
 	     END Voided
 
 FROM	(
-	SELECT 'WORK' AS Origin, mem.BSSI_Facility_ID AS Entity, pm.VENDORID, pm.VCHRNMBR, pm.DOCTYPE, pm.DOCDATE, pm.PSTGDATE,
+	SELECT 'WORK' AS Origin, RTRIM(mem.BSSI_Facility_ID) AS Entity, pm.VENDORID, pm.VCHNUMWK AS VCHRNMBR, pm.DOCTYPE, pm.DOCDATE, pm.PSTGDATE,
 	 pm.DUEDATE, pm.DOCNUMBR, pm.DOCAMNT, pm.CURTRXAM, pm.TRXDSCRN, 0 AS VOIDED
 	 FROM dbo.PM10000 pm
-	 JOIN dbo.B3920000 mem ON mem.VCHRNMBR = pm.VCHRNMBR AND mem.DOCTYPE = pm.DOCTYPE
+	 JOIN dbo.B3920000 mem ON mem.VCHNUMWK = pm.VCHNUMWK AND mem.DOCTYPE = pm.DOCTYPE 
 
 	UNION ALL
 
-	 SELECT 'OPEN' AS Origin, mem.BSSI_Facility_ID AS Entity, pm.VENDORID, pm.VCHRNMBR, pm.DOCTYPE, pm.DOCDATE, pm.PSTGDATE,
+	 SELECT 'OPEN' AS Origin, RTRIM(mem.BSSI_Facility_ID) AS Entity, pm.VENDORID, pm.VCHRNMBR, pm.DOCTYPE, pm.DOCDATE, pm.PSTGDATE,
 	 pm.DUEDATE, pm.DOCNUMBR, pm.DOCAMNT, pm.CURTRXAM, pm.TRXDSCRN, pm.VOIDED
 	 FROM dbo.PM20000 pm
-	 JOIN dbo.B3920001 mem ON mem.VCHRNMBR = pm.VCHRNMBR AND mem.DOCTYPE = pm.DOCTYPE
+	 JOIN dbo.B3920001 mem ON mem.VCHRNMBR = pm.VCHRNMBR AND mem.DOCTYPE = pm.DOCTYPE AND mem.DOCNUMBR = pm.DOCNUMBR
 
 	UNION ALL
 
-	 SELECT 'HIST' AS Origin, mem.BSSI_Facility_ID AS Entity, pm.VENDORID, pm.VCHRNMBR, pm.DOCTYPE, pm.DOCDATE, pm.PSTGDATE,
+	 SELECT 'HIST' AS Origin, RTRIM(mem.BSSI_Facility_ID) AS Entity, pm.VENDORID, pm.VCHRNMBR, pm.DOCTYPE, pm.DOCDATE, pm.PSTGDATE,
 	 pm.DUEDATE, pm.DOCNUMBR, pm.DOCAMNT, pm.CURTRXAM, pm.TRXDSCRN, pm.VOIDED
 	 FROM dbo.PM30200 pm
-	 JOIN dbo.B3920200 mem ON mem.VCHRNMBR = pm.VCHRNMBR AND mem.DOCTYPE = pm.DOCTYPE
+	 JOIN dbo.B3920200 mem ON mem.VCHRNMBR = pm.VCHRNMBR AND mem.DOCTYPE = pm.DOCTYPE AND mem.DOCNUMBR = pm.DOCNUMBR
 	 	 
 	 ) P
 
@@ -100,11 +138,14 @@ FROM	(
 	 AND UPPER(V.VENDNAME) LIKE '%' + UPPER(@VendorName) + '%'
 	 AND P.DOCAMNT >= @AmountFrom
 	 AND P.DOCAMNT <= @AmountTo
-	 AND P.Entity IN (SELECT LTRIM(RTRIM(convert(VARCHAR(20), value))) FROM string_split(@SelectedEntities, ','))
-	 --AND CONTAINS(@SelectedEntities, P.Entity)
+	 --On SQL Server 2016 and higher, the string_split function can be used
+	 --AND P.Entity IN (SELECT LTRIM(RTRIM(convert(VARCHAR(20), value))) FROM string_split(@SelectedEntities, ','))
+	 --On older versions of SQL Server, use the intlist_to_tbl User Defined Function instead
+	 AND P.Entity IN (SELECT RTRIM(LTRIM(itemvalue)) FROM intlist_to_tbl(@SelectedEntities))
+	 --AND EXISTS (SELECT * FROM intlist_to_tbl(@SelectedEntities) WHERE P.Entity = RTRIM(LTRIM(itemvalue)))
+
 	
 END
-
 GO 
 
 GRANT EXEC ON csspPMTransactionSearchMEM TO DYNGRP
