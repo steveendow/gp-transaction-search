@@ -43,6 +43,7 @@
     </Reference>
     <Reference Include="Application.MenusForVisualStudioTools">
       <HintPath>..\..\1 GP Files\GP2016\Application.MenusForVisualStudioTools.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="GPSQLConnection2016, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
