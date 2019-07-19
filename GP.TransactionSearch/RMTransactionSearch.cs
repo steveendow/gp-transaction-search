@@ -48,7 +48,15 @@ namespace GP.TransactionSearch
                 this.Text = this.Text + " v" + Controller.Instance.Model.AssemblyVersion;
             }
 
-            this.dateStart.Value = DateTime.Today.AddYears(-1);
+            if (Controller.Instance.Model.DefaultDatesFromUserDate)
+            {
+                this.dateEnd.Value = Dynamics.Globals.UserDate;
+                this.dateStart.Value = this.dateEnd.Value.AddYears(-1);
+            }
+            else
+            {
+                this.dateStart.Value = DateTime.Today.AddYears(-1);
+            }
 
             PrepDataGrid();
 
